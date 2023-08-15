@@ -1,4 +1,4 @@
-FROM php:8.1-fpm
+FROM php:8.2-fpm
 
 WORKDIR /var/www
 
@@ -48,3 +48,5 @@ RUN echo "* * * * * root php /var/www/artisan schedule:run >> /var/log/cron.log 
 RUN touch /var/log/cron.log
 
 CMD bash -c "cron && php-fpm"
+
+
