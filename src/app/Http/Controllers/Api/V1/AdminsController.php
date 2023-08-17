@@ -341,10 +341,4 @@ class AdminsController extends Controller
         return $this->success('','User Deleted',200);
     }
 
-    // public function authenticatedUserDetails()
-    // {
-    //     return $this->success([
-    //         'user' => Auth::guard('api')->user()
-    //     ],'Authenticated User Details');
-    // }
 }
