@@ -7,6 +7,8 @@ use App\Models\User;
 trait TestTokenTrait
 {
     use HasJwtTokens;
+
+
     public function generateToken()
     {
         $user = User::factory()->create(['is_admin'=>1]);
