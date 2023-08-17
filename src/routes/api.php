@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\v1\UsersController;
 use App\Http\Controllers\Api\V1\AdminsController;
 
 /*
@@ -21,8 +22,6 @@ use App\Http\Controllers\Api\V1\AdminsController;
 
 Route::prefix('v1')->group(function() {
 
-
-
     // not Authenticated Routes
     Route::prefix('admin')->group(function() {
         Route::controller(AdminsController::class)->group(function() {
@@ -30,6 +29,8 @@ Route::prefix('v1')->group(function() {
         });
 
     });
+
+
 
     //Authenticated Routes
     Route::middleware('auth:api')->group(function() {
@@ -48,8 +49,20 @@ Route::prefix('v1')->group(function() {
         });
 
         //User Middleware
-        Route::middleware('adminOnly')->group(function() {
-
+        Route::middleware('userOnly')->group(function() {
+            Route::prefix('user')->group(function() {
+                Route::controller(UsersController::class)->group(function() {
+                    Route::get('user','show');
+                    Route::delete('user','destroy');
+                    Route::get('orders','orders');
+                    Route::put('edit','update');
+                    Route::post('login','login');
+                    Route::get('logout','logout');
+                    Route::post('create','store');
+                    Route::post('forgot-password','forgotPassword');
+                    Route::post('reset-password-token','resetPasswordToken');
+                });
+            });
         });
     });
 
