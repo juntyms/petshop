@@ -293,7 +293,7 @@ class AdminsController extends Controller
         }
 
         if ($user->is_admin == 1 && $user->uuid != Auth::user()->uuid) {
-            return $this->error('','You cannot update admin user',403);
+            return $this->error('','You cannot update other admin user',403);
         }
 
         $user->update($request->all());
