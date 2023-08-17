@@ -26,11 +26,13 @@ services:
   db:
     image: mariadb:latest
     restart: always
+    env_file:
+      - ./src/.env
     environment:
       MARIADB_ROOT_PASSWORD: adminpass
-      MYSQL_USER: "petshop_user"
-      MYSQL_PASSWORD: "petshop_pass"
-      MYSQL_DATABASE: "petshop_db"
+      MYSQL_USER:
+      MYSQL_PASSWORD:
+      MYSQL_DATABASE:
     ports:
       - "3306:3306"
     volumes:

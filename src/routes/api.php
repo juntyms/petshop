@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\V1\AdminsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,6 +15,43 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
+
+Route::prefix('v1')->group(function() {
+
+
+
+    // not Authenticated Routes
+    Route::prefix('admin')->group(function() {
+        Route::controller(AdminsController::class)->group(function() {
+            Route::post('/login','login');
+        });
+
+    });
+
+    //Authenticated Routes
+    Route::middleware('auth:api')->group(function() {
+
+        //Admin Middleware
+        Route::middleware('adminOnly')->group(function() {
+            Route::prefix('admin')->group(function() {
+                Route::controller(AdminsController::class)->group(function() {
+                    Route::post('/create', 'store');
+                    Route::get('/user-listing','index');
+                    Route::put('/user-edit/{uuid}','update');
+                    Route::delete('/user-delete/{uuid}','destroy');
+                    Route::get('/logout','logout');
+                });
+            });
+        });
+
+        //User Middleware
+        Route::middleware('adminOnly')->group(function() {
+
+        });
+    });
+
+
 });
