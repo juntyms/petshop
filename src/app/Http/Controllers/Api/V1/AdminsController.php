@@ -102,17 +102,7 @@ class AdminsController extends Controller
 
         $request->validated($request->all());
 
-        $user = User::create([
-                    'first_name' => $request->first_name,
-                    'last_name' => $request->last_name,
-                    'is_admin' => $request->is_admin,
-                    'email' => $request->email,
-                    'password' => $request->password,
-                    'avatar' => $request->avatar,
-                    'address' => $request->address,
-                    'phone_number' => $request->phone_number,
-                ]);
-
+        $user = User::create($request->all());
 
         return $this->success([
             'user' => $user
