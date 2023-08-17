@@ -4,14 +4,10 @@ namespace App\Http\Controllers\Api\V1;
 
 use Auth;
 use App\Models\User;
-use DateTimeImmutable;
 use App\Models\JwtToken;
-use Lcobucci\JWT\Signer;
 use Illuminate\Http\Request;
-use Lcobucci\JWT\Configuration;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\AdminResource;
-use Lcobucci\JWT\Signer\Key\InMemory;
+use App\Http\Resources\Api\V1\AdminResource;
 use App\Http\Traits\Api\V1\HasJwtTokens;
 use App\Http\Traits\Api\V1\HttpResponses;
 use App\Http\Requests\Api\V1\AdminLoginRequest;
@@ -35,7 +31,7 @@ class AdminsController extends Controller
      */
     public function index()
     {
-        $admins = User::get();
+        $admins = User::where('is_admin',0)->get();
 
         return AdminResource::collection($admins);
     }
