@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\Order;
 use App\Models\JwtToken;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
@@ -66,5 +67,10 @@ class User extends Authenticatable
     public function jwttoken()
     {
         return $this->belongsTo(JwtToken::class, 'id', 'user_id');
+    }
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class, 'user_id', 'id');
     }
 }

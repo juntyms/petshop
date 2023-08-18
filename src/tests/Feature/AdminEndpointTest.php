@@ -12,7 +12,8 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class AdminEndpointTest extends TestCase
 {
-    use HasJwtTokens, TestTokenTrait;
+    use HasJwtTokens;
+    use TestTokenTrait;
     /** @test */
     public function can_create_admin_account(): void
     {
@@ -21,13 +22,13 @@ class AdminEndpointTest extends TestCase
         $token = $this->generateToken(); //Create Admin User then generate token
 
         $response = $this->withHeaders([
-                        'Authorization'=>'Bearer '.$token->token,])
-                    ->json('POST','/api/v1/admin/create',[
+                        'Authorization' => 'Bearer '.$token->token,])
+                    ->json('POST', '/api/v1/admin/create', [
                             'uuid' => '1',
                             'first_name' => fake()->firstname(),
                             'last_name' => fake()->lastName(),
                             'is_admin' => 1,
-                            'email' =>fake()->email(),
+                            'email' => fake()->email(),
                             'password' => Hash::make('123456789'),
                             'address' => fake()->address(),
                             'phone_number' => fake()->phoneNumber()
@@ -45,7 +46,7 @@ class AdminEndpointTest extends TestCase
 
         $token = $this->generateToken(); //Create Admin User then generate token
 
-        $response = $this->withHeaders(['Authorization'=>'Bearer '.$token->token])
+        $response = $this->withHeaders(['Authorization' => 'Bearer '.$token->token])
                         ->get('/api/v1/admin/user-listing');
 
         $response->assertStatus(200);
@@ -56,17 +57,14 @@ class AdminEndpointTest extends TestCase
     /** @test */
     public function admin_can_login()
     {
-        $user = User::where('id',1)->first();
 
-        $userFound = $user ? true : false;
-
-        $this->assertTrue($userFound);
-
-        $response = $this->post('api/v1/admin/login',
+        $response = $this->post(
+            'api/v1/admin/login',
             [
                 'email' => 'admin@buckhill.co.uk',
                 'password' => 'admin'
-            ]);
+            ]
+        );
 
         $response->assertStatus(200);
 
@@ -75,10 +73,10 @@ class AdminEndpointTest extends TestCase
     /** @test */
     public function admin_can_logout()
     {
-         //Create Admin User then generate token
+        //Create Admin User then generate token
         $token = $this->generateToken();
 
-        $response = $this->get('/api/v1/admin/logout',['Authorization'=>'Bearer '.$token->token]);
+        $response = $this->get('/api/v1/admin/logout', ['Authorization' => 'Bearer '.$token->token]);
 
         $response->assertStatus(200);
     }
@@ -89,10 +87,10 @@ class AdminEndpointTest extends TestCase
 
         $token = $this->generateToken(); //Create Admin User then generate token
 
-        $normal_user = User::factory()->create(['is_admin'=>'0']);
+        $normal_user = User::factory()->create(['is_admin' => '0']);
 
-        $response = $this->withHeaders(['Authorization'=>'Bearer '.$token->token])
-                        ->json('PUT','/api/v1/admin/user-edit/'.$normal_user->uuid,[
+        $response = $this->withHeaders(['Authorization' => 'Bearer '.$token->token])
+                        ->json('PUT', '/api/v1/admin/user-edit/'.$normal_user->uuid, [
                             'first_name' => 'Michael'
                         ]);
         // Success
@@ -107,11 +105,11 @@ class AdminEndpointTest extends TestCase
         $token = $this->generateToken();
 
         //Create New Admin User
-        $user = User::factory()->create(['is_admin'=>'1']);
+        $user = User::factory()->create(['is_admin' => '1']);
 
         // Edit the Admin User
-        $response = $this->withHeaders(['Authorization'=>'Bearer '.$token->token])
-                        ->json('PUT','/api/v1/admin/user-edit/'.$user->uuid,[
+        $response = $this->withHeaders(['Authorization' => 'Bearer '.$token->token])
+                        ->json('PUT', '/api/v1/admin/user-edit/'.$user->uuid, [
                             'first_name' => 'Jone',
                             'last_name' =>  'Doe',
                             'email' => 'john.doe@email.com',
@@ -132,10 +130,10 @@ class AdminEndpointTest extends TestCase
         //Create Admin User then generate token
         $token = $this->generateToken();
 
-        $user = User::factory()->create(['is_admin'=>0]);
+        $user = User::factory()->create(['is_admin' => 0]);
 
-        $response = $this->withHeaders(['Authorization'=>'Bearer '.$token->token])
-                            ->json('delete','api/v1/admin/user-delete/'.$user->uuid);
+        $response = $this->withHeaders(['Authorization' => 'Bearer '.$token->token])
+                            ->json('delete', 'api/v1/admin/user-delete/'.$user->uuid);
 
         $response->assertStatus(200);
 
@@ -147,10 +145,10 @@ class AdminEndpointTest extends TestCase
         //Create Admin User then generate token
         $token = $this->generateToken();
 
-        $user = User::factory()->create(['is_admin'=>1]);
+        $user = User::factory()->create(['is_admin' => 1]);
 
-        $response = $this->withHeaders(['Authorization'=>'Bearer '.$token->token])
-                            ->json('delete','api/v1/admin/user-delete/'.$user->uuid);
+        $response = $this->withHeaders(['Authorization' => 'Bearer '.$token->token])
+                            ->json('delete', 'api/v1/admin/user-delete/'.$user->uuid);
 
         $response->assertStatus(403);
     }

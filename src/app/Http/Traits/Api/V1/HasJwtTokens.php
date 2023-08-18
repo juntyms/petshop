@@ -9,6 +9,7 @@ use Lcobucci\JWT\Signer\Key\InMemory;
 use Lcobucci\JWT\Validation\Constraint\SignedWith;
 use App\Models\User;
 use App\Models\JwtToken;
+
 trait HasJwtTokens
 {
     public function configuration()
@@ -35,10 +36,10 @@ trait HasJwtTokens
             ->issuedAt($dateNow)
             ->expiresAt($dateNow->modify('+10 minute'))
             ->withClaim('uuid', $uuid)
-            ->withHeader('pet', 'shop')
-            ->getToken($this->configuration()->signer(),$this->configuration()->signingKey());
+            ->withHeader('petshop', uniqid())
+            ->getToken($this->configuration()->signer(), $this->configuration()->signingKey());
 
-        $user = User::where('uuid',$uuid)->first();
+        $user = User::where('uuid', $uuid)->first();
 
         JwtToken::create([
             'user_id' => $user->id,
@@ -58,9 +59,9 @@ trait HasJwtTokens
 
         $validator = $this->configuration()->validator();
 
-        if ($validator->validate($token, new SignedWith($this->configuration()->signer(),$this->configuration()->verificationKey()))) {
+        if ($validator->validate($token, new SignedWith($this->configuration()->signer(), $this->configuration()->verificationKey()))) {
 
-            return User::where('uuid',$token->claims()->get('uuid'))->first();
+            return User::where('uuid', $token->claims()->get('uuid'))->first();
 
         }
 
