@@ -4,12 +4,17 @@ namespace App\Http\Controllers\Api\v1;
 
 use Auth;
 use App\Models\User;
+use App\Models\JwtToken;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Traits\Api\V1\HasJwtTokens;
 use App\Http\Traits\Api\V1\HttpResponses;
 use App\Http\Resources\Api\V1\UserResource;
+
 use App\Http\Requests\Api\V1\UserLoginRequest;
+use App\Http\Requests\Api\V1\UserStoreRequest;
 use App\Interfaces\Api\V1\UserRepositoryInterface;
 
 class UsersController extends Controller
@@ -27,29 +32,37 @@ class UsersController extends Controller
     {
         $userId = Auth::user()->id;
 
-        //return $this->userRepository->getUserDetails($userId);
-
-        // return response()->json([
-        //     'data' => $this->userRepository->getUserDetails($userId)
-        // ]);
-
-        return UserResource::collection($this->userRepository->getUserDetails($userId));
+        return new UserResource($this->userRepository->getUserDetails($userId));
     }
-
-
     public function destroy()
     {
+        $userId = Auth::user()->id;
+
+        $this->userRepository->deleteUser($userId);
+
+        return $this->success('', 'User Deleted', 200);
 
     }
-
 
     public function orders()
     {
+        $userId = Auth::user()->id;
 
+        return UserResource::collection($this->userRepository->getAllUserOrders($userId));
+
+    }
+    public function store(UserStoreRequest $request)
+    {
+        $request->validated($request->all());
+
+        return new UserResource($this->userRepository->createUser($request->all()));
     }
 
     public function update(Request $request)
     {
+        $userId = Auth::user()->id;
+
+        return new UserResource($this->userRepository->updateUserDetails($userId, $request->all()));
 
     }
 
@@ -71,6 +84,17 @@ class UsersController extends Controller
             return $this->error('', 'Credentials do not match', 401);
 
         }
+
+    }
+
+    public function logout()
+    {
+        // Delete token
+        JwtToken::where('user_id', Auth::user()->id)->delete();
+
+        return $this->success([
+            'message' => 'You have been logout'
+        ]);
 
     }
 }
