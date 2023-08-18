@@ -16,7 +16,10 @@ class CreateJwtTokensTable extends Migration
             $table->bigIncrements('id');
             $table->string('unique_id');
             $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('user_id')
+                ->references('id')
+                ->on('users')
+                ->onDelete('cascade');
             $table->text('token_title');
             $table->json('restrictions')->nullable();
             $table->json('permissions')->nullable();
