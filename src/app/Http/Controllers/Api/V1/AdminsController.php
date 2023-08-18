@@ -18,20 +18,21 @@ use App\Http\Requests\Api\V1\AdminStoreRequest;
  */
 class AdminsController extends Controller
 {
-    use HttpResponses, HasJwtTokens;
-/**
-     * @OA\Get(
-     *      path="/api/v1/admin/user-listing",
-     *      summary="Get all list of posts",
-     *      tags={"Admin"},
-     * @OA\Response(response="200", description="Success"),
-     * @OA\Response(response="404", description="Not found"),
-     * security={ {"bearerToken": {}} }
-     * )
-     */
+    use HttpResponses;
+    use HasJwtTokens;
+    /**
+         * @OA\Get(
+         *      path="/api/v1/admin/user-listing",
+         *      summary="Get all list of posts",
+         *      tags={"Admin"},
+         * @OA\Response(response="200", description="Success"),
+         * @OA\Response(response="404", description="Not found"),
+         * security={ {"bearerToken": {}} }
+         * )
+         */
     public function index()
     {
-        $admins = User::where('is_admin',0)->get();
+        $admins = User::where('is_admin', 0)->get();
 
         return AdminResource::collection($admins);
     }
@@ -95,7 +96,7 @@ class AdminsController extends Controller
      *   security={ {"bearerToken": {}} }
      * )
      */
-    public function store(AdminStoreRequest $request)
+    public function store(UserStoreRequest $request)
     {
 
         $request['is_admin'] = 1;
@@ -175,15 +176,15 @@ class AdminsController extends Controller
 
         if (Auth::attempt($request->only(['email','password']))) {
 
-                $this->createToken(Auth::user()->uuid);
+            $this->createToken(Auth::user()->uuid);
 
-                $user = User::where('id', Auth::user()->id)->get();
+            $user = User::where('id', Auth::user()->id)->get();
 
-                return AdminResource::collection($user);
+            return AdminResource::collection($user);
 
         } else {
 
-             return $this->error('','Credentials do not match',401);
+            return $this->error('', 'Credentials do not match', 401);
 
         }
     }
@@ -203,7 +204,7 @@ class AdminsController extends Controller
     public function logout()
     {
         // Delete token
-        JwtToken::where('user_id',Auth::user()->id)->delete();
+        JwtToken::where('user_id', Auth::user()->id)->delete();
 
         return $this->success([
             'message' => 'You have been logout'
@@ -279,11 +280,11 @@ class AdminsController extends Controller
         $user = User::where('uuid', $uuid)->first();
 
         if (empty($user)) {
-            return $this->error('','Record Not Found',404);
+            return $this->error('', 'Record Not Found', 404);
         }
 
         if ($user->is_admin == 1 && $user->uuid != Auth::user()->uuid) {
-            return $this->error('','You cannot update other admin user',403);
+            return $this->error('', 'You cannot update other admin user', 403);
         }
 
         $user->update($request->all());
@@ -291,40 +292,40 @@ class AdminsController extends Controller
         return new AdminResource($user);
     }
 
-     /**
-     * @OA\Delete(
-     * path="/api/v1/admin/user-delete/{uuid}",
-     * summary="Method to delete User from database.",
-     * tags={"Admin"},
-     * security={ {"bearerToken": {}} },
-     * @OA\Parameter(
-     *         name="uuid",
-     *         in="path",
-     *         description="uuid of the User you want to delete",
-     *         required=true,
-     *         @OA\Schema(
-     *             type="string"
-     *         )
-     *     ),
-     * @OA\Response(response="200", description="Success"),
-     * @OA\Response(response="404", description="User Not found"),
-     * )
-     */
+    /**
+    * @OA\Delete(
+    * path="/api/v1/admin/user-delete/{uuid}",
+    * summary="Method to delete User from database.",
+    * tags={"Admin"},
+    * security={ {"bearerToken": {}} },
+    * @OA\Parameter(
+    *         name="uuid",
+    *         in="path",
+    *         description="uuid of the User you want to delete",
+    *         required=true,
+    *         @OA\Schema(
+    *             type="string"
+    *         )
+    *     ),
+    * @OA\Response(response="200", description="Success"),
+    * @OA\Response(response="404", description="User Not found"),
+    * )
+    */
     public function destroy($uuid)
     {
-        $user = User::where('uuid',$uuid)->first();
+        $user = User::where('uuid', $uuid)->first();
 
         if (empty($user)) {
-            return $this->error('','User Not Found',404);
+            return $this->error('', 'User Not Found', 404);
         }
 
         if ($user->is_admin == 1) {
-            return $this->error('','You Do not have permission to delete admin user',403);
+            return $this->error('', 'You Do not have permission to delete admin user', 403);
         }
 
         $user->delete();
 
-        return $this->success('','User Deleted',200);
+        return $this->success('', 'User Deleted', 200);
     }
 
 }
