@@ -11,7 +11,9 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens;
+    use HasFactory;
+    use Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -54,15 +56,15 @@ class User extends Authenticatable
 
     protected static function booted()
     {
-        static::creating(function($model) {
+        static::creating(function ($model) {
 
-                $model->uuid = $model->max("id") + 1;
+            $model->uuid = fake()->uuid;
 
         });
     }
 
     public function jwttoken()
     {
-        return $this->belongsTo(JwtToken::class,'id','user_id');
+        return $this->belongsTo(JwtToken::class, 'id', 'user_id');
     }
 }
