@@ -10,5 +10,5 @@ class PasswordResetToken extends Model
     use HasFactory;
     protected $table = 'password_reset_tokens';
 
-    protected $guarded = ['id'];
+    protected $fillable = ['email','token'];
 }

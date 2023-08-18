@@ -8,17 +8,19 @@ use App\Models\JwtToken;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Http\JsonResponse;
+use App\Models\PasswordResetToken;
 use App\Http\Controllers\Controller;
 use App\Http\Traits\Api\V1\HasJwtTokens;
 use App\Http\Traits\Api\V1\HttpResponses;
+use Illuminate\Auth\Events\PasswordReset;
+
 use App\Http\Resources\Api\V1\UserResource;
 use App\Http\Requests\Api\V1\UserLoginRequest;
-
 use App\Http\Requests\Api\V1\UserStoreRequest;
 use App\Http\Requests\Api\V1\ResetPasswordRequest;
 use App\Interfaces\Api\V1\UserRepositoryInterface;
 use App\Http\Requests\Api\V1\ForgotPasswordRequest;
-use Illuminate\Auth\Events\PasswordReset;
+use Carbon\Carbon;
 
 class UsersController extends Controller
 {
@@ -110,11 +112,14 @@ class UsersController extends Controller
         if ($user) {
             PasswordResetToken::where('email', $user->email)->delete();
 
-            JwtToken::where('user_id', $user->id)->delete();
+            $new_token = uniqid();
 
-            $new_token = $this->createToken($user->uuid);
-
-            PasswordResetToken::create(['email' => $user->email,'token' => $new_token]);
+            \DB::table('password_reset_tokens')
+                ->insert([
+                    'email' => $user->email,
+                    'token' => $new_token,
+                    'created_at' => Carbon::now()
+                ]);
 
             return $this->success([
                 'token' => $new_token
@@ -127,9 +132,24 @@ class UsersController extends Controller
 
     public function resetPasswordToken(ResetPasswordRequest $request)
     {
+        $request->validated($request->all());
         //find Email
+        $resetToken = PasswordResetToken::where('email', $request->email)
+                            ->where('token', $request->token)
+                            ->first();
 
-        //
+        if ($resetToken) {
+
+            $user = User::where('email', $request->email)->first();
+
+            $user->update(['password' => \Hash::make($request->password)]);
+
+            \DB::table('password_reset_tokens')->where('email', $request->email)->delete();
+
+            return $this->success('', 'Success Password Updated', 200);
+        }
+
+        return $this->error('', 'No Token Found for this email', 404);
     }
 
 }
