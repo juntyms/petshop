@@ -9,14 +9,16 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Api\V1\ForgotPasswordRequest;
 use App\Http\Traits\Api\V1\HasJwtTokens;
 use App\Http\Traits\Api\V1\HttpResponses;
 use App\Http\Resources\Api\V1\UserResource;
-
 use App\Http\Requests\Api\V1\UserLoginRequest;
+
 use App\Http\Requests\Api\V1\UserStoreRequest;
+use App\Http\Requests\Api\V1\ResetPasswordRequest;
 use App\Interfaces\Api\V1\UserRepositoryInterface;
+use App\Http\Requests\Api\V1\ForgotPasswordRequest;
+use Illuminate\Auth\Events\PasswordReset;
 
 class UsersController extends Controller
 {
@@ -106,11 +108,16 @@ class UsersController extends Controller
 
         //Generate Token
         if ($user) {
+            PasswordResetToken::where('email', $user->email)->delete();
+
             JwtToken::where('user_id', $user->id)->delete();
 
-            return $this->success([
+            $new_token = $this->createToken($user->uuid);
 
-                'token' => $this->createToken($user->uuid)
+            PasswordResetToken::create(['email' => $user->email,'token' => $new_token]);
+
+            return $this->success([
+                'token' => $new_token
             ], 'Token Generated', 200);
 
         }
@@ -118,5 +125,11 @@ class UsersController extends Controller
         return $this->error('', 'Email Not Found', '403');
     }
 
+    public function resetPasswordToken(ResetPasswordRequest $request)
+    {
+        //find Email
+
+        //
+    }
 
 }
