@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\V1\ForgotPasswordRequest;
 use App\Http\Traits\Api\V1\HasJwtTokens;
 use App\Http\Traits\Api\V1\HttpResponses;
 use App\Http\Resources\Api\V1\UserResource;
@@ -97,4 +98,25 @@ class UsersController extends Controller
         ]);
 
     }
+
+    public function forgotPassword(ForgotPasswordRequest $request)
+    {
+        //Find Email
+        $user = User::where('email', $request->email)->firstOrFail();
+
+        //Generate Token
+        if ($user) {
+            JwtToken::where('user_id', $user->id)->delete();
+
+            return $this->success([
+
+                'token' => $this->createToken($user->uuid)
+            ], 'Token Generated', 200);
+
+        }
+
+        return $this->error('', 'Email Not Found', '403');
+    }
+
+
 }
