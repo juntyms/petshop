@@ -11,7 +11,7 @@ use App\Http\Resources\Api\V1\AdminResource;
 use App\Http\Traits\Api\V1\HasJwtTokens;
 use App\Http\Traits\Api\V1\HttpResponses;
 use App\Http\Requests\Api\V1\AdminLoginRequest;
-use App\Http\Requests\Api\V1\AdminStoreRequest;
+use App\Http\Requests\Api\V1\UserStoreRequest;
 
 /**
  * @OA\Tag(name="Admin", description="Admin Endpoint")
