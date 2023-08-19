@@ -17,11 +17,12 @@ Route::prefix('v1')->group(function () {
 
     Route::prefix('user')->group(function () {
         Route::controller(UsersController::class)->group(function () {
-            Route::post('login', 'login');
+            Route::post('/login', 'login');
+            Route::get('/logout', 'logout');
 
-            Route::post('create', 'store');
-            Route::post('forgot-password', 'forgotPassword');
-            Route::post('reset-password-token', 'resetPasswordToken');
+            Route::post('/create', 'store');
+            Route::post('/forgot-password', 'forgotPassword');
+            Route::post('/reset-password-token', 'resetPasswordToken');
         });
     });
 
@@ -47,9 +48,9 @@ Route::prefix('v1')->group(function () {
                 Route::controller(UsersController::class)->group(function () {
                     Route::get('/', 'show');
                     Route::delete('/', 'destroy');
-                    Route::get('orders', 'orders');
-                    Route::put('edit', 'update');
-                    Route::get('logout', 'logout');
+                    Route::get('/orders', 'orders');
+                    Route::put('/edit', 'update');
+
                 });
             });
         });
