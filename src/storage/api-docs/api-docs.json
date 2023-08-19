@@ -19,7 +19,7 @@
                     "Admin"
                 ],
                 "summary": "Get all list of posts",
-                "operationId": "fc869c182caaef3f330c4f27ed2642c6",
+                "operationId": "9a9eeebc1ea66b06126e423fd3c81cc8",
                 "responses": {
                     "200": {
                         "description": "Success"
@@ -41,7 +41,7 @@
                     "Admin"
                 ],
                 "summary": "Create new user",
-                "operationId": "db0a65aa19adecbdefea6c4de8e739b7",
+                "operationId": "1f9deb54882b6b80530cb0c0918de15d",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -196,7 +196,7 @@
                     "Admin"
                 ],
                 "summary": "Update User record.",
-                "operationId": "f49e40b16e19e90d333f3c7998f78795",
+                "operationId": "c1e3ade84f956f7fdd0dc6c7b13e9996",
                 "parameters": [
                     {
                         "name": "uuid",
@@ -277,7 +277,7 @@
                     "Admin"
                 ],
                 "summary": "Method to delete User from database.",
-                "operationId": "3f2c6ea143989c5de31e69246b64a2a5",
+                "operationId": "31d4660567014a3df5f944269a9102d4",
                 "parameters": [
                     {
                         "name": "uuid",
@@ -303,6 +303,453 @@
                     }
                 ]
             }
+        },
+        "/api/v1/user": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "View a User Account",
+                "operationId": "show",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerToken": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Delete a User Account",
+                "operationId": "destroy",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerToken": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/user/orders": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "List all orders for the user",
+                "operationId": "order",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "sortBy",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerToken": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/user/create": {
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Create new user",
+                "operationId": "be9d68ef05d06d75e4adb3562220a4b6",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "first_name",
+                                    "last_name",
+                                    "email",
+                                    "password",
+                                    "avatar",
+                                    "address",
+                                    "phone_number"
+                                ],
+                                "properties": {
+                                    "first_name": {
+                                        "description": "First Name",
+                                        "type": "string",
+                                        "example": "John"
+                                    },
+                                    "last_name": {
+                                        "description": "last Name",
+                                        "type": "string",
+                                        "example": "Doe"
+                                    },
+                                    "email": {
+                                        "description": "email",
+                                        "type": "string",
+                                        "example": "Doe"
+                                    },
+                                    "password": {
+                                        "description": "password",
+                                        "type": "password"
+                                    },
+                                    "avatar": {
+                                        "description": "avatar",
+                                        "type": "string"
+                                    },
+                                    "address": {
+                                        "description": "Address",
+                                        "type": "string"
+                                    },
+                                    "phone_number": {
+                                        "description": "User Phone Number",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        },
+        "/api/v1/user/edit": {
+            "put": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Update User record.",
+                "operationId": "c5e51b497f269625a832ec82311e8e69",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "required": [
+                                    "first_name",
+                                    "last_name",
+                                    "email",
+                                    "password",
+                                    "address",
+                                    "phone_number"
+                                ],
+                                "properties": {
+                                    "first_name": {
+                                        "description": "User Firstname to be updated",
+                                        "type": "string"
+                                    },
+                                    "last_name": {
+                                        "description": "User Lastname to be updated",
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "description": "User Email Address to be updated",
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "description": "User password to be updated",
+                                        "type": "string"
+                                    },
+                                    "avatar": {
+                                        "description": "User Avatar UUID to be updated",
+                                        "type": "string"
+                                    },
+                                    "address": {
+                                        "description": "User Address to be updated",
+                                        "type": "string"
+                                    },
+                                    "phone_number": {
+                                        "description": "Users Phone number to be updated",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerToken": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/user/login": {
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Logs user into system",
+                "operationId": "User-login",
+                "parameters": [
+                    {
+                        "name": "email",
+                        "in": "query",
+                        "description": "The user name for login",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "password",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        },
+        "/api/v1/user/logout": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Logs out current logged in user session",
+                "operationId": "fc388b2f89bb2251f99dbccb510a2764",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        },
+        "/api/v1/user/forgot-password": {
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Create a token to reset a user password",
+                "operationId": "3aa43144ee40fb905644f9b78a0afe99",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "required": [
+                                    "email"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "description": "User email",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        },
+        "/api/v1/user/reset-password-token": {
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Rest a user password with a token",
+                "operationId": "b0298a94657c6e654092944978b96c81",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "required": [
+                                    "token",
+                                    "email",
+                                    "password",
+                                    "password_confirmation"
+                                ],
+                                "properties": {
+                                    "token": {
+                                        "description": "User reset token",
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "description": "User email",
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "description": "User password",
+                                        "type": "string"
+                                    },
+                                    "password_confirmation": {
+                                        "description": "User password",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
         }
     },
     "components": {
@@ -320,7 +767,11 @@
     "tags": [
         {
             "name": "Admin",
-            "description": "a domesticated animal"
+            "description": "Admin Endpoint"
+        },
+        {
+            "name": "User",
+            "description": "User API Endpoint"
         }
     ]
 }
