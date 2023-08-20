@@ -7,11 +7,12 @@ use App\Models\User;
 use App\Models\JwtToken;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Api\V1\AdminResource;
 use App\Http\Traits\Api\V1\HasJwtTokens;
 use App\Http\Traits\Api\V1\HttpResponses;
-use App\Http\Requests\Api\V1\AdminLoginRequest;
+use App\Http\Resources\Api\V1\AdminResource;
 use App\Http\Requests\Api\V1\UserStoreRequest;
+use App\Http\Requests\Api\V1\AdminLoginRequest;
+use App\Interfaces\Api\V1\UserRepositoryInterface;
 
 /**
  * @OA\Tag(name="Admin", description="Admin Endpoint")
@@ -20,6 +21,13 @@ class AdminsController extends Controller
 {
     use HttpResponses;
     use HasJwtTokens;
+
+    private UserRepositoryInterface $userRepository;
+
+    public function __construct(UserRepositoryInterface $userRepository)
+    {
+        $this->userRepository = $userRepository;
+    }
     /**
      * @OA\Get(
      *    tags={"Admin"},
@@ -89,11 +97,12 @@ class AdminsController extends Controller
      *    @OA\Response(response=500, description="Internal server error")
      * )
      */
-    public function index()
+    public function index(Request $request)
     {
-        $admins = User::where('is_admin', 0)->get();
 
-        return AdminResource::collection($admins);
+        $users = $this->userRepository->getAllUserByLevel(0, $request->all());
+
+        return AdminResource::collection($users);
     }
 
     /**
