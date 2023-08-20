@@ -125,7 +125,6 @@ class UsersController extends Controller
 
         $orders = $this->userRepository->getAllUserOrders($userId, $request->all());
 
-        //return UserResource::collection($this->userRepository->getAllUserOrders($userId, $request));
         return OrderResource::collection($orders);
 
     }
