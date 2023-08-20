@@ -191,6 +191,8 @@ class UsersController extends Controller
 
     public function store(UserStoreRequest $request)
     {
+        $request['is_admin'] = 0;
+
         $request->validated($request->all());
 
         return new UserResource($this->userRepository->createUser($request->all()));
