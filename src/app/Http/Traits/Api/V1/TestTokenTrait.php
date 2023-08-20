@@ -8,10 +8,9 @@ trait TestTokenTrait
 {
     use HasJwtTokens;
 
-
-    public function generateToken()
+    public function generateToken($userType)
     {
-        $user = User::factory()->create(['is_admin'=>1]);
+        $user = User::factory()->create(['is_admin' => $userType]);
 
         $this->token = $this->createToken($user->uuid);
 

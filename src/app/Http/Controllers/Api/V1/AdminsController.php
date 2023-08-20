@@ -7,11 +7,12 @@ use App\Models\User;
 use App\Models\JwtToken;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Api\V1\AdminResource;
 use App\Http\Traits\Api\V1\HasJwtTokens;
 use App\Http\Traits\Api\V1\HttpResponses;
+use App\Http\Resources\Api\V1\AdminResource;
+use App\Http\Requests\Api\V1\UserStoreRequest;
 use App\Http\Requests\Api\V1\AdminLoginRequest;
-use App\Http\Requests\Api\V1\AdminStoreRequest;
+use App\Interfaces\Api\V1\UserRepositoryInterface;
 
 /**
  * @OA\Tag(name="Admin", description="Admin Endpoint")
@@ -20,28 +21,96 @@ class AdminsController extends Controller
 {
     use HttpResponses;
     use HasJwtTokens;
-    /**
-         * @OA\Get(
-         *      path="/api/v1/admin/user-listing",
-         *      summary="Get all list of posts",
-         *      tags={"Admin"},
-         * @OA\Response(response="200", description="Success"),
-         * @OA\Response(response="404", description="Not found"),
-         * security={ {"bearerToken": {}} }
-         * )
-         */
-    public function index()
-    {
-        $admins = User::where('is_admin', 0)->get();
 
-        return AdminResource::collection($admins);
+    private UserRepositoryInterface $userRepository;
+
+    public function __construct(UserRepositoryInterface $userRepository)
+    {
+        $this->userRepository = $userRepository;
+    }
+    /**
+     * @OA\Get(
+     *    tags={"Admin"},
+     *    path="/api/v1/admin/user-listing",
+     *    summary="Get all list of posts",
+     *    security={ {"bearerToken": {}} },
+     *    @OA\Parameter(
+     *      name="page",
+     *      in="query",
+     *      @OA\Schema(type="integer")
+     *    ),
+     *    @OA\Parameter(
+     *      name="limit",
+     *      in="query",
+     *      @OA\Schema(type="integer")
+     *    ),
+     *    @OA\Parameter(
+     *      name="sortBy",
+     *      in="query",
+     *      @OA\Schema(type="string")
+     *    ),
+     *    @OA\Parameter(
+     *      name="desc",
+     *      in="query",
+     *      @OA\Schema(
+     *        type="boolean",
+     *        enum={"true","false"},
+     *      )
+     *    ),
+     *    @OA\Parameter(
+     *      name="first_name",
+     *      in="query",
+     *      @OA\Schema(type="string")
+     *    ),
+     *    @OA\Parameter(
+     *      name="email",
+     *      in="query",
+     *      @OA\Schema(type="string")
+     *    ),
+     *    @OA\Parameter(
+     *      name="phone",
+     *      in="query",
+     *      @OA\Schema(type="string")
+     *    ),
+     *    @OA\Parameter(
+     *      name="address",
+     *      in="query",
+     *      @OA\Schema(type="string")
+     *    ),
+     *    @OA\Parameter(
+     *      name="created_at",
+     *      in="query",
+     *      @OA\Schema(type="string")
+     *    ),
+     *    @OA\Parameter(
+     *      name="marketing",
+     *      in="query",
+     *      @OA\Schema(
+     *        type="string",
+     *        enum={"1","0"},
+     *      )
+     *    ),
+     *    @OA\Response(response=200, description="OK"),
+     *    @OA\Response(response=401, description="Unauthorized"),
+     *    @OA\Response(response=404, description="Not Found"),
+     *    @OA\Response(response=422, description="Unprocessable Entity"),
+     *    @OA\Response(response=500, description="Internal server error")
+     * )
+     */
+    public function index(Request $request)
+    {
+
+        $users = $this->userRepository->getAllUserByLevel(0, $request->all());
+
+        return AdminResource::collection($users);
     }
 
     /**
      * @OA\Post(
+     *   tags={"Admin"},
      *   path="/api/v1/admin/create",
      *   summary="Create new user",
-     *   tags={"Admin"},
+     *   security={ {"bearerToken": {}} },
      *   @OA\RequestBody(
      *     required=true,
      *     @OA\MediaType(
@@ -89,11 +158,11 @@ class AdminsController extends Controller
      *       ),
      *     ),
      *   ),
-     *
-     *   @OA\Response(response=200, description="Success"),
-     *   @OA\Response(response=401, description="Unauthorized"),
-     *   @OA\Response(response=404, description="Not Found"),
-     *   security={ {"bearerToken": {}} }
+     *    @OA\Response(response=200, description="OK"),
+     *    @OA\Response(response=401, description="Unauthorized"),
+     *    @OA\Response(response=404, description="Not Found"),
+     *    @OA\Response(response=422, description="Unprocessable Entity"),
+     *    @OA\Response(response=500, description="Internal server error")
      * )
      */
     public function store(UserStoreRequest $request)
@@ -113,8 +182,8 @@ class AdminsController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/api/v1/admin/login",
      *     tags={"Admin"},
+     *     path="/api/v1/admin/login",
      *     summary="Logs user into system",
      *     operationId="login",
      *     @OA\Parameter(
@@ -134,39 +203,11 @@ class AdminsController extends Controller
      *             type="string",
      *         )
      *     ),
-     *     @OA\Response(
-     *         response=200,
-     *         description="successful operation",
-     *         @OA\Header(
-     *             header="X-Rate-Limit",
-     *             description="calls per hour allowed by the user",
-     *             @OA\Schema(
-     *                 type="integer",
-     *                 format="int32"
-     *             )
-     *         ),
-     *         @OA\Header(
-     *             header="X-Expires-After",
-     *             description="date in UTC when token expires",
-     *             @OA\Schema(
-     *                 type="string",
-     *                 format="datetime"
-     *             )
-     *         ),
-     *         @OA\JsonContent(
-     *             type="string"
-     *         ),
-     *         @OA\MediaType(
-     *             mediaType="application/xml",
-     *             @OA\Schema(
-     *                 type="string"
-     *             )
-     *         )
-     *     ),
-     *     @OA\Response(
-     *         response=400,
-     *         description="Invalid username/password supplied"
-     *     )
+     *     @OA\Response(response=200, description="OK"),
+     *     @OA\Response(response=401, description="Unauthorized"),
+     *     @OA\Response(response=404, description="Not Found"),
+     *     @OA\Response(response=422, description="Unprocessable Entity"),
+     *     @OA\Response(response=500, description="Internal server error")
      * )
      */
     public function login(AdminLoginRequest $request)
@@ -191,14 +232,15 @@ class AdminsController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/v1/admin/logout",
      *     tags={"Admin"},
+     *     path="/api/v1/admin/logout",
      *     summary="Logs out current logged in user session",
      *     operationId="logout",
-     *     @OA\Response(
-     *         response="default",
-     *         description="successful operation"
-     *     )
+     *     @OA\Response(response=200, description="OK"),
+     *     @OA\Response(response=401, description="Unauthorized"),
+     *     @OA\Response(response=404, description="Not Found"),
+     *     @OA\Response(response=422, description="Unprocessable Entity"),
+     *     @OA\Response(response=500, description="Internal server error")
      * )
      */
     public function logout()
@@ -213,11 +255,11 @@ class AdminsController extends Controller
 
     /**
      * @OA\Put(
-     * path="/api/v1/admin/user-edit/{uuid}",
-     * summary="Update User record.",
-     * tags={"Admin"},
-     * security={ {"bearerToken": {}} },
-     * @OA\Parameter(
+     *    tags={"Admin"},
+     *    path="/api/v1/admin/user-edit/{uuid}",
+     *    summary="Update User record.",
+     *    security={ {"bearerToken": {}} },
+     *    @OA\Parameter(
      *         name="uuid",
      *         in="path",
      *         description="uuid of the User",
@@ -226,18 +268,18 @@ class AdminsController extends Controller
      *             type="string"
      *         )
      *     ),
-     * @OA\RequestBody(
-     *   required=true,
-     *    @OA\MediaType(
-     *       mediaType="application/x-www-form-urlencoded",
-     *        @OA\Schema(
-     *          required={"first_name","last_name","email","password","address","phone_number"},
-     *            @OA\Property(
+     *    @OA\RequestBody(
+     *       required=true,
+     *       @OA\MediaType(
+     *          mediaType="application/x-www-form-urlencoded",
+     *          @OA\Schema(
+     *             required={"first_name","last_name","email","password","address","phone_number"},
+     *             @OA\Property(
      *                property="first_name",
      *                type="string",
      *                description="User Firstname to be updated",
-     *            ),
-     *            @OA\Property(
+     *             ),
+     *             @OA\Property(
      *                property="last_name",
      *                type="string",
      *                description="User Lastname to be updated",
@@ -270,8 +312,11 @@ class AdminsController extends Controller
      *        ),
      *    ),
      * ),
-     * @OA\Response(response="200", description="Success"),
-     * @OA\Response(response="404", description="Not found"),
+     *    @OA\Response(response=200, description="OK"),
+     *    @OA\Response(response=401, description="Unauthorized"),
+     *    @OA\Response(response=404, description="Not Found"),
+     *    @OA\Response(response=422, description="Unprocessable Entity"),
+     *    @OA\Response(response=500, description="Internal server error")
      * )
      */
     public function update(Request $request, $uuid)
@@ -293,22 +338,25 @@ class AdminsController extends Controller
     }
 
     /**
-    * @OA\Delete(
-    * path="/api/v1/admin/user-delete/{uuid}",
-    * summary="Method to delete User from database.",
-    * tags={"Admin"},
-    * security={ {"bearerToken": {}} },
-    * @OA\Parameter(
-    *         name="uuid",
-    *         in="path",
-    *         description="uuid of the User you want to delete",
-    *         required=true,
-    *         @OA\Schema(
-    *             type="string"
-    *         )
-    *     ),
-    * @OA\Response(response="200", description="Success"),
-    * @OA\Response(response="404", description="User Not found"),
+     * @OA\Delete(
+     *   path="/api/v1/admin/user-delete/{uuid}",
+     *   summary="Method to delete User from database.",
+     *   tags={"Admin"},
+     *   security={ {"bearerToken": {}} },
+     *   @OA\Parameter(
+     *       name="uuid",
+     *       in="path",
+     *       description="uuid of the User you want to delete",
+     *       required=true,
+     *       @OA\Schema(
+     *          type="string"
+     *       ),
+     *  ),
+     *   @OA\Response(response=200, description="OK"),
+     *   @OA\Response(response=401, description="Unauthorized"),
+     *   @OA\Response(response=404, description="Not Found"),
+     *   @OA\Response(response=422, description="Unprocessable Entity"),
+     *   @OA\Response(response=500, description="Internal server error")
     * )
     */
     public function destroy($uuid)

@@ -13,7 +13,7 @@ class UserTableSeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory(20)->create(['password' => \Hash::make('password')]);
+        User::factory(20)->create(['password' => \Hash::make('userpassword')]);
 
     }
 }

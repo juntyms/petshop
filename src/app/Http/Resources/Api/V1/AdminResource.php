@@ -16,7 +16,6 @@ class AdminResource extends JsonResource
     {
         return [
            'id' => (string)$this->id,
-           'type' => 'Admin Users',
            'attributes' => [
                    'uuid' => (string)$this->uuid,
                    'first_name' => $this->first_name,
