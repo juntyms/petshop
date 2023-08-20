@@ -16,9 +16,14 @@ function _ssh() {
   docker-compose --env-file ./src/.env exec app bash
 }
 
+function _exec() {
+  docker-compose --env-file ./src/.env exec app
+}
+
 case $1 in
 "start") _up ;;
 "stop") _stop ;;
 "rebuild") _rebuild ;;
 "ssh") _ssh ;;
 esac
+
