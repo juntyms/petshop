@@ -307,11 +307,9 @@ class UsersController extends Controller
 
             return UserResource::collection($user);
 
-        } else {
-
-            return $this->error('', 'Credentials do not match', 401);
-
         }
+
+        return $this->error('', 'Credentials do not match', 401);
 
     }
 

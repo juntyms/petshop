@@ -227,11 +227,14 @@ class UserEndpointTest extends TestCase
     public function user_can_edit_own_account()
     {
 
+        $user = User::factory()->create(['is_admin' => 0]);
+
         $token = $this->generateToken(0);
 
         $response = $this->withHeaders(['Authorization' => 'Bearer '.$token->token])
-                        ->put('api/v1/user/edit', [
-                            'address' => 'new address'
+                        ->json('PUT', 'api/v1/user/edit', [
+                            'first_name' => 'Michael',
+                            'address' => 'New Address'
                         ]);
 
         $response->assertStatus(200);

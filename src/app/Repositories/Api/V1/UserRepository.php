@@ -11,24 +11,19 @@ class UserRepository implements UserRepositoryInterface
 {
     public function createUser(array $userDetails)
     {
-        $user = User::create($userDetails);
-
-        return $user;
+        return User::create($userDetails);
     }
     public function getUserDetails($userId)
     {
-        $user = User::findOrFail($userId);
-
-        return $user;
+        return User::findOrFail($userId);
     }
     public function updateUserDetails($userId, array $newUserDetails)
     {
-        $user = User::findOrFail($userId);
+        $user = User::find($userId);
 
         $user->update($newUserDetails);
 
         return $user;
-
     }
     public function deleteUser($userId)
     {
@@ -43,15 +38,13 @@ class UserRepository implements UserRepositoryInterface
 
         $sortBy = array_key_exists('sortBy', $filter) ?? null;
 
-        $order = Order::where('user_id', $userId)
+        return Order::where('user_id', $userId)
                     ->when($limit, function (Builder $query) use ($filter) {
                         $query->limit($filter['limit']);
                     })->when($sortBy, function (Builder $query) use ($filter) {
                         $query->orderBy($filter['sortBy']);
                     })
                     ->paginate($page);
-
-        return $order;
     }
 
     public function getAllUserByLevel($userLevel, array $filter)
@@ -78,7 +71,7 @@ class UserRepository implements UserRepositoryInterface
         $marketing = array_key_exists('marketing', $filter) ?? null;
 
 
-        $users = User::where('is_admin', $userLevel)
+        return User::where('is_admin', $userLevel)
                     ->when($limit, function (Builder $query) use ($filter) {
                         $query->limit($filter['limit']);
                     })
@@ -104,8 +97,6 @@ class UserRepository implements UserRepositoryInterface
                         $query->orderBy($filter['sortBy']);
                     })
                     ->paginate($page);
-
-        return $users;
 
 
     }

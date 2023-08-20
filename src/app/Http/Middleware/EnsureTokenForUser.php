@@ -16,7 +16,7 @@ class EnsureTokenForUser
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::user()->is_admin != 0) {
+        if (Auth::user()->is_admin !== 0) {
             //abort('401','Unauthorize Access');
             abort(response()->json('Unauthorized Access', 403));
         }

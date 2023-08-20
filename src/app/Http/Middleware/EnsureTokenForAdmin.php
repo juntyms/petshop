@@ -18,7 +18,7 @@ class EnsureTokenForAdmin
     public function handle(Request $request, Closure $next): Response
     {
         //Check if Auth user token is admin
-        if (Auth::user()->is_admin != 1) {
+        if (Auth::user()->is_admin !== 1) {
             //abort('401','Unauthorize Access');
             abort(response()->json('Unauthorized Access', 403));
         }

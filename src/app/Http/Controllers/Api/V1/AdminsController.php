@@ -223,11 +223,11 @@ class AdminsController extends Controller
 
             return AdminResource::collection($user);
 
-        } else {
-
-            return $this->error('', 'Credentials do not match', 401);
-
         }
+
+        return $this->error('', 'Credentials do not match', 401);
+
+
     }
 
     /**
@@ -328,7 +328,7 @@ class AdminsController extends Controller
             return $this->error('', 'Record Not Found', 404);
         }
 
-        if ($user->is_admin == 1 && $user->uuid != Auth::user()->uuid) {
+        if ($user->is_admin === 1 && $user->uuid != Auth::user()->uuid) {
             return $this->error('', 'You cannot update other admin user', 403);
         }
 
@@ -367,7 +367,7 @@ class AdminsController extends Controller
             return $this->error('', 'User Not Found', 404);
         }
 
-        if ($user->is_admin == 1) {
+        if ($user->is_admin === 1) {
             return $this->error('', 'You Do not have permission to delete admin user', 403);
         }
 
