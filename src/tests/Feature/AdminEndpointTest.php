@@ -14,12 +14,13 @@ class AdminEndpointTest extends TestCase
 {
     use HasJwtTokens;
     use TestTokenTrait;
+    use RefreshDatabase;
     /** @test */
     public function can_create_admin_account(): void
     {
         $this->withoutExceptionHandling();
 
-        $token = $this->generateToken(); //Create Admin User then generate token
+        $token = $this->generateToken(1); //Create Admin User then generate token
 
         $response = $this->withHeaders([
                         'Authorization' => 'Bearer '.$token->token,])
@@ -44,7 +45,7 @@ class AdminEndpointTest extends TestCase
     {
         $this->withoutExceptionHandling();
 
-        $token = $this->generateToken(); //Create Admin User then generate token
+        $token = $this->generateToken(1); //Create Admin User then generate token
 
         $response = $this->withHeaders(['Authorization' => 'Bearer '.$token->token])
                         ->get('/api/v1/admin/user-listing');
@@ -58,10 +59,12 @@ class AdminEndpointTest extends TestCase
     public function admin_can_login()
     {
 
+        $admin_user = User::factory()->create(['is_admin' => 1,'password' => 'admin']);
+
         $response = $this->post(
             'api/v1/admin/login',
             [
-                'email' => 'admin@buckhill.co.uk',
+                'email' => $admin_user->email,
                 'password' => 'admin'
             ]
         );
@@ -74,7 +77,7 @@ class AdminEndpointTest extends TestCase
     public function admin_can_logout()
     {
         //Create Admin User then generate token
-        $token = $this->generateToken();
+        $token = $this->generateToken(1);
 
         $response = $this->get('/api/v1/admin/logout', ['Authorization' => 'Bearer '.$token->token]);
 
@@ -85,7 +88,7 @@ class AdminEndpointTest extends TestCase
     public function admin_user_can_edit_user_info()
     {
 
-        $token = $this->generateToken(); //Create Admin User then generate token
+        $token = $this->generateToken(1); //Create Admin User then generate token
 
         $normal_user = User::factory()->create(['is_admin' => '0']);
 
@@ -102,7 +105,7 @@ class AdminEndpointTest extends TestCase
     public function admin_user_cannot_edit_admin_info()
     {
         //Create Admin User then generate token
-        $token = $this->generateToken();
+        $token = $this->generateToken(1);
 
         //Create New Admin User
         $user = User::factory()->create(['is_admin' => '1']);
@@ -128,7 +131,7 @@ class AdminEndpointTest extends TestCase
     {
 
         //Create Admin User then generate token
-        $token = $this->generateToken();
+        $token = $this->generateToken(1);
 
         $user = User::factory()->create(['is_admin' => 0]);
 
@@ -143,7 +146,7 @@ class AdminEndpointTest extends TestCase
     public function admin_cannot_delete_admin_user()
     {
         //Create Admin User then generate token
-        $token = $this->generateToken();
+        $token = $this->generateToken(1);
 
         $user = User::factory()->create(['is_admin' => 1]);
 
