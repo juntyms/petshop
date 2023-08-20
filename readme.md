@@ -15,7 +15,7 @@ composer install
 cd petshop
 ./local.sh rebuild
 ```
-#####Other docker option
+##### Other docker option
 Starting Docker Server
 ```
 ./docker.sh start
