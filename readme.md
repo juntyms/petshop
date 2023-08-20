@@ -52,7 +52,7 @@ DB_PASSWORD=petshop_pass
 
 #### Accessing phpmyadmin
 - Open web browser and visit the following link : [127.0.0.1:8081](http://127.0.0.1:8081)
-- create your preferred database name or copy the **sample .env configuration provided**
+- create your preferred database name or copy the **[sample .env configuration provided](https://github.com/juntyms/petshop#configure-env)**
 
 #### Running migration
 _access the shell and run the migration and seeder_
