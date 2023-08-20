@@ -6,6 +6,7 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 use OpenApi\Annotations as OA;
+
 /**
  * @OA\Info(
  *      version="1.0.0",
@@ -19,6 +20,7 @@ use OpenApi\Annotations as OA;
  *         url="https://opensource.org/licenses/MIT"
  *     ),
  *  ),
+ *
  *  @OA\SecurityScheme(
  *       type="http",
  *       description="Authorization with JWT",
@@ -28,9 +30,11 @@ use OpenApi\Annotations as OA;
  *       bearerFormat="JWT",
  *       securityScheme="bearerToken"
  *  )
- *
  */
+
 class Controller extends BaseController
 {
-    use AuthorizesRequests, ValidatesRequests;
+    use AuthorizesRequests;
+    use ValidatesRequests;
+
 }

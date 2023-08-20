@@ -2,12 +2,10 @@
 
 namespace App\Providers;
 
-
 use App\Http\Traits\Api\V1\HasJwtTokens;
+use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
-
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -28,21 +26,13 @@ class AuthServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Auth::viaRequest('jwt', function (Request $request) {
-
             try {
-
-                $jwt = $request->bearerToken() ?? "";
-
+                $jwt = $request->bearerToken() ?? '';
                 return $this->jwtAuthenticatedUser($jwt);
-
-            } catch(\Exception $th){
+            } catch(\Exception $th) {
                 \Log::error($th);
                 return null;
             }
-
-
         });
-
-
     }
 }

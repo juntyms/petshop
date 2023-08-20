@@ -15,6 +15,5 @@ trait TestTokenTrait
         $this->token = $this->createToken($user->uuid);
 
         return $this;
-
     }
 }

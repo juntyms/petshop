@@ -2,27 +2,22 @@
 
 namespace App\Http\Controllers\Api\v1;
 
-use Auth;
-use Carbon\Carbon;
-use App\Models\User;
-use App\Models\Order;
-use App\Models\JwtToken;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-use Illuminate\Http\JsonResponse;
-use App\Models\PasswordResetToken;
 use App\Http\Controllers\Controller;
-use App\Http\Traits\Api\V1\HasJwtTokens;
-use App\Http\Traits\Api\V1\HttpResponses;
-use Illuminate\Auth\Events\PasswordReset;
-use App\Http\Resources\Api\V1\UserResource;
-use App\Http\Resources\Api\V1\OrderResource;
+use App\Http\Requests\Api\V1\ForgotPasswordRequest;
+use App\Http\Requests\Api\V1\ResetPasswordRequest;
 use App\Http\Requests\Api\V1\UserLoginRequest;
 use App\Http\Requests\Api\V1\UserStoreRequest;
-use App\Http\Requests\Api\V1\ResetPasswordRequest;
+use App\Http\Resources\Api\V1\OrderResource;
+use App\Http\Resources\Api\V1\UserResource;
+use App\Http\Traits\Api\V1\HasJwtTokens;
+use App\Http\Traits\Api\V1\HttpResponses;
 use App\Interfaces\Api\V1\UserRepositoryInterface;
-use App\Http\Requests\Api\V1\ForgotPasswordRequest;
-use Illuminate\Pagination\Paginator;
+use App\Models\JwtToken;
+use App\Models\PasswordResetToken;
+use App\Models\User;
+use Auth;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
 
 /**
  * @OA\Tag(name="User", description="User API Endpoint")
@@ -334,7 +329,6 @@ class UsersController extends Controller
         return $this->success([
             'message' => 'You have been logout'
         ]);
-
     }
 
     /**
@@ -384,7 +378,6 @@ class UsersController extends Controller
             return $this->success([
                 'token' => $new_token
             ], 'Token Generated', 200);
-
         }
 
         return $this->error('', 'Email Not Found', '404');
@@ -437,8 +430,8 @@ class UsersController extends Controller
         $request->validated($request->all());
         //find Email
         $resetToken = PasswordResetToken::where('email', $request->email)
-                            ->where('token', $request->token)
-                            ->first();
+            ->where('token', $request->token)
+            ->first();
 
         if ($resetToken) {
 
@@ -453,5 +446,4 @@ class UsersController extends Controller
 
         return $this->error('', 'No Token Found for this email', 404);
     }
-
 }

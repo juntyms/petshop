@@ -3,10 +3,10 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Laravel\Sanctum\HasApiTokens;
-use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
@@ -53,15 +53,6 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    protected static function booted()
-    {
-        static::creating(function ($model) {
-
-            $model->uuid = fake()->uuid;
-
-        });
-    }
-
     public function jwttoken()
     {
         return $this->belongsTo(JwtToken::class, 'id', 'user_id');
@@ -72,5 +63,10 @@ class User extends Authenticatable
         return $this->hasMany(Order::class, 'user_id', 'id');
     }
 
-
+    protected static function booted()
+    {
+        static::creating(function ($model) {
+            $model->uuid = fake()->uuid;
+        });
+    }
 }

@@ -2,13 +2,13 @@
 
 namespace App\Http\Traits\Api\V1;
 
+use App\Models\JwtToken;
+use App\Models\User;
 use DateTimeImmutable;
-use Lcobucci\JWT\Signer;
 use Lcobucci\JWT\Configuration;
+use Lcobucci\JWT\Signer;
 use Lcobucci\JWT\Signer\Key\InMemory;
 use Lcobucci\JWT\Validation\Constraint\SignedWith;
-use App\Models\User;
-use App\Models\JwtToken;
 
 trait HasJwtTokens
 {
@@ -17,17 +17,23 @@ trait HasJwtTokens
         $private_key = config('jwt.private_key');
         $public_key = config('jwt.public_key');
 
-        $config = Configuration::forAsymmetricSigner(
+        return Configuration::forAsymmetricSigner(
             new Signer\Rsa\Sha256(),
             InMemory::plainText($private_key),
             InMemory::plainText($public_key),
         );
-
-        return $config;
+        //return $config;
     }
+
+    /**
+     * Summary of createToken
+     * @param mixed $uuid
+     * @return string
+     */
+
     protected function createToken($uuid)
     {
-        $dateNow   = new DateTimeImmutable();
+        $dateNow = new DateTimeImmutable();
 
         $tokenBuilder = $this->configuration()->builder();
 
@@ -44,11 +50,10 @@ trait HasJwtTokens
         JwtToken::create([
             'user_id' => $user->id,
             'unique_id' => $user->uuid,
-            'token_title' => $newtoken->toString()
+            'token_title' => $newtoken->toString(),
         ]);
 
         return $newtoken->toString();
-
     }
 
     protected function jwtAuthenticatedUser($jwt)
@@ -67,7 +72,4 @@ trait HasJwtTokens
 
         return null;
     }
-
-
-
 }

@@ -14,12 +14,11 @@ class UserResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-
         return [
-                'id' => (string)$this->id,
+                'id' => (string) $this->id,
                 'type' => 'User',
                 'attributes' => [
-                    'uuid' => (string)$this->uuid,
+                    'uuid' => (string) $this->uuid,
                     'first_name' => $this->first_name,
                     'last_name' => $this->last_name,
                     'email' => $this->email,
@@ -34,9 +33,8 @@ class UserResource extends JsonResource
                         'id' => $this->jwttoken->id ?? null,
                         'token' => $this->jwttoken->token_title ?? null
                     ],
-                    'orders' =>  collect($this->orders)
+                    'orders' => collect($this->orders)
                 ]
             ];
-
     }
 }

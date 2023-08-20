@@ -15,8 +15,7 @@ class Order extends Model
 
     protected $casts = [
         'products' => 'array',
-        'address' => 'array'
-
+        'address' => 'array',
     ];
 
     public function user()

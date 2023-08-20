@@ -14,6 +14,6 @@ class Payment extends Model
     protected $guarded = ['id'];
 
     protected $casts = [
-        'details' => 'array'
+        'details' => 'array',
     ];
 }

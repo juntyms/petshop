@@ -2,9 +2,9 @@
 
 namespace App\Repositories\Api\V1;
 
-use App\Models\User;
-use App\Models\Order;
 use App\Interfaces\Api\V1\UserRepositoryInterface;
+use App\Models\Order;
+use App\Models\User;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 
 class UserRepository implements UserRepositoryInterface
@@ -39,17 +39,17 @@ class UserRepository implements UserRepositoryInterface
         $sortBy = array_key_exists('sortBy', $filter) ?? null;
 
         return Order::where('user_id', $userId)
-                    ->when($limit, function (Builder $query) use ($filter) {
-                        $query->limit($filter['limit']);
-                    })->when($sortBy, function (Builder $query) use ($filter) {
-                        $query->orderBy($filter['sortBy']);
-                    })
-                    ->paginate($page);
+            ->when($limit, function (Builder $query) use ($filter) {
+                $query->limit($filter['limit']);
+            })
+            ->when($sortBy, function (Builder $query) use ($filter) {
+                $query->orderBy($filter['sortBy']);
+            })
+            ->paginate($page);
     }
 
     public function getAllUserByLevel($userLevel, array $filter)
     {
-
         $limit = array_key_exists('limit', $filter) ?? null;
 
         $page = array_key_exists('page', $filter) ?? null;
@@ -70,34 +70,31 @@ class UserRepository implements UserRepositoryInterface
 
         $marketing = array_key_exists('marketing', $filter) ?? null;
 
-
         return User::where('is_admin', $userLevel)
-                    ->when($limit, function (Builder $query) use ($filter) {
-                        $query->limit($filter['limit']);
-                    })
-                    ->when($first_name, function (Builder $query) use ($filter) {
-                        $query->where('first_name', $filter['first_name']);
-                    })
-                    ->when($email, function (Builder $query) use ($filter) {
-                        $query->where('email', $filter['email']);
-                    })
-                    ->when($phone_number, function (Builder $query) use ($filter) {
-                        $query->where('phone_number', $filter['phone_number']);
-                    })
-                    ->when($address, function (Builder $query) use ($filter) {
-                        $query->where('address', $filter['address']);
-                    })
-                    ->when($created_at, function (Builder $query) use ($filter) {
-                        $query->where('created_at', $filter['created_at']);
-                    })
-                    ->when($marketing, function (Builder $query) use ($filter) {
-                        $query->where('is_marketing', $filter['marketing']);
-                    })
-                    ->when($sortBy, function (Builder $query) use ($filter) {
-                        $query->orderBy($filter['sortBy']);
-                    })
-                    ->paginate($page);
-
-
+            ->when($limit, function (Builder $query) use ($filter) {
+                $query->limit($filter['limit']);
+            })
+            ->when($first_name, function (Builder $query) use ($filter) {
+                $query->where('first_name', $filter['first_name']);
+            })
+            ->when($email, function (Builder $query) use ($filter) {
+                $query->where('email', $filter['email']);
+            })
+            ->when($phone_number, function (Builder $query) use ($filter) {
+                $query->where('phone_number', $filter['phone_number']);
+            })
+            ->when($address, function (Builder $query) use ($filter) {
+                $query->where('address', $filter['address']);
+            })
+            ->when($created_at, function (Builder $query) use ($filter) {
+                $query->where('created_at', $filter['created_at']);
+            })
+            ->when($marketing, function (Builder $query) use ($filter) {
+                $query->where('is_marketing', $filter['marketing']);
+            })
+            ->when($sortBy, function (Builder $query) use ($filter) {
+                $query->orderBy($filter['sortBy']);
+            })
+            ->paginate($page);
     }
 }

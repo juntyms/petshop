@@ -22,11 +22,10 @@ class OrderResource extends JsonResource
             'amount' => $this->amount,
             'shipped_at' => $this->shipped_at,
             'order_status' => [
-
             ],
             'user' => collect($this->user),
-            'payment' => []
+            'payment' => [
+            ]
         ];
-
     }
 }

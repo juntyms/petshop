@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers\Api\V1;
 
-use Auth;
-use App\Models\User;
-use App\Models\JwtToken;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\V1\AdminLoginRequest;
+use App\Http\Requests\Api\V1\UserStoreRequest;
+use App\Http\Resources\Api\V1\AdminResource;
 use App\Http\Traits\Api\V1\HasJwtTokens;
 use App\Http\Traits\Api\V1\HttpResponses;
-use App\Http\Resources\Api\V1\AdminResource;
-use App\Http\Requests\Api\V1\UserStoreRequest;
-use App\Http\Requests\Api\V1\AdminLoginRequest;
 use App\Interfaces\Api\V1\UserRepositoryInterface;
+use App\Models\JwtToken;
+use App\Models\User;
+use Auth;
+use Illuminate\Http\Request;
 
 /**
  * @OA\Tag(name="Admin", description="Admin Endpoint")
@@ -226,8 +226,6 @@ class AdminsController extends Controller
         }
 
         return $this->error('', 'Credentials do not match', 401);
-
-
     }
 
     /**
@@ -321,7 +319,6 @@ class AdminsController extends Controller
      */
     public function update(Request $request, $uuid)
     {
-
         $user = User::where('uuid', $uuid)->first();
 
         if (empty($user)) {
@@ -357,8 +354,8 @@ class AdminsController extends Controller
      *   @OA\Response(response=404, description="Not Found"),
      *   @OA\Response(response=422, description="Unprocessable Entity"),
      *   @OA\Response(response=500, description="Internal server error")
-    * )
-    */
+     * )
+     */
     public function destroy($uuid)
     {
         $user = User::where('uuid', $uuid)->first();
@@ -375,5 +372,4 @@ class AdminsController extends Controller
 
         return $this->success('', 'User Deleted', 200);
     }
-
 }
