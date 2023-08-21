@@ -34,7 +34,7 @@ SSH to docker Server
 ```
 
 
-#### Configure .env 
+#### configure .env 
 Open .env file
 ```
 DB_CONNECTION=mysql
@@ -64,9 +64,15 @@ php artisan migrate:fresh --seed
 #### Swagger Api Endpoint Documentation
 http://127.0.0.1/api/documentation
 
+### PHP Insights
+Check code quality using php [insights](https://phpinsights.com/)
+```
+php artisan insight
+```
 
-
-### Default Admin User
+### Admin User
 >username : **admin@buckhill.co.uk**
 >password: **admin**
 
+### Normal User
+> password : userpassword 
