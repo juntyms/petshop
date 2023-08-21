@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\V1\AdminLoginRequest;
 use App\Http\Requests\Api\V1\UserStoreRequest;
 use App\Http\Resources\Api\V1\AdminResource;
+use App\Http\Resources\Api\V1\UserResource;
 use App\Http\Traits\Api\V1\HasJwtTokens;
 use App\Http\Traits\Api\V1\HttpResponses;
 use App\Interfaces\Api\V1\UserRepositoryInterface;
@@ -99,7 +100,6 @@ class AdminsController extends Controller
      */
     public function index(Request $request)
     {
-
         $users = $this->userRepository->getAllUserByLevel(0, $request->all());
 
         return AdminResource::collection($users);
@@ -167,17 +167,11 @@ class AdminsController extends Controller
      */
     public function store(UserStoreRequest $request)
     {
-
         $request['is_admin'] = 1;
 
         $request->validated($request->all());
 
-        $user = User::create($request->all());
-
-        return $this->success([
-            'user' => $user
-        ]);
-
+        return new UserResource($this->userRepository->createUser($request->all()));
     }
 
     /**
@@ -212,7 +206,6 @@ class AdminsController extends Controller
      */
     public function login(AdminLoginRequest $request)
     {
-
         $request->validated($request->all());
 
         if (Auth::attempt($request->only(['email','password']))) {
@@ -325,13 +318,13 @@ class AdminsController extends Controller
             return $this->error('', 'Record Not Found', 404);
         }
 
-        if ($user->is_admin === 1 && $user->uuid != Auth::user()->uuid) {
+        if ($user->is_admin === 1 && $user->uuid !== Auth::user()->uuid) {
             return $this->error('', 'You cannot update other admin user', 403);
         }
 
-        $user->update($request->all());
+        $userId = $user->id;
 
-        return new AdminResource($user);
+        return new AdminResource($this->userRepository->updateUserDetails($userId, $request->all()));
     }
 
     /**
@@ -358,17 +351,13 @@ class AdminsController extends Controller
      */
     public function destroy($uuid)
     {
-        $user = User::where('uuid', $uuid)->first();
+        $user = User::where('uuid', $uuid)
+            ->where('is_admin', 0)
+            ->firstOrFail();
 
-        if (empty($user)) {
-            return $this->error('', 'User Not Found', 404);
-        }
+        $userId = $user->id;
 
-        if ($user->is_admin === 1) {
-            return $this->error('', 'You Do not have permission to delete admin user', 403);
-        }
-
-        $user->delete();
+        $this->userRepository->deleteUser($userId);
 
         return $this->success('', 'User Deleted', 200);
     }

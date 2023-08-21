@@ -21,15 +21,8 @@ trait HasJwtTokens
             new Signer\Rsa\Sha256(),
             InMemory::plainText($private_key),
             InMemory::plainText($public_key),
-        );
-        //return $config;
+        ); //return $config;
     }
-
-    /**
-     * Summary of createToken
-     * @param mixed $uuid
-     * @return string
-     */
 
     protected function createToken($uuid)
     {
@@ -65,9 +58,7 @@ trait HasJwtTokens
         $validator = $this->configuration()->validator();
 
         if ($validator->validate($token, new SignedWith($this->configuration()->signer(), $this->configuration()->verificationKey()))) {
-
             return User::where('uuid', $token->claims()->get('uuid'))->first();
-
         }
 
         return null;

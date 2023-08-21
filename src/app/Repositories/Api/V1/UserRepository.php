@@ -13,10 +13,12 @@ class UserRepository implements UserRepositoryInterface
     {
         return User::create($userDetails);
     }
+
     public function getUserDetails($userId)
     {
         return User::findOrFail($userId);
     }
+
     public function updateUserDetails($userId, array $newUserDetails)
     {
         $user = User::find($userId);
@@ -25,6 +27,7 @@ class UserRepository implements UserRepositoryInterface
 
         return $user;
     }
+
     public function deleteUser($userId)
     {
         User::destroy($userId);

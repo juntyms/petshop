@@ -15,26 +15,26 @@ class UserResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-                'id' => (string) $this->id,
-                'type' => 'User',
-                'attributes' => [
-                    'uuid' => (string) $this->uuid,
-                    'first_name' => $this->first_name,
-                    'last_name' => $this->last_name,
-                    'email' => $this->email,
-                    'address' => $this->address,
-                    'phone_number' => $this->phone_number,
-                    'is_admin' => $this->is_admin ? true : false,
-                    'created_at' => $this->created_at,
-                    'updated_at' => $this->updated_at
+            'id' => (string) $this->id,
+            'type' => 'User',
+            'attributes' => [
+                'uuid' => (string) $this->uuid,
+                'first_name' => $this->first_name,
+                'last_name' => $this->last_name,
+                'email' => $this->email,
+                'address' => $this->address,
+                'phone_number' => $this->phone_number,
+                'is_admin' => $this->is_admin ? true : false,
+                'created_at' => $this->created_at,
+                'updated_at' => $this->updated_at,
+            ],
+            'relationships' => [
+                'jwt' => [
+                    'id' => $this->jwttoken->id ?? null,
+                    'token' => $this->jwttoken->token_title ?? null,
                 ],
-                'relationships' => [
-                    'jwt' => [
-                        'id' => $this->jwttoken->id ?? null,
-                        'token' => $this->jwttoken->token_title ?? null
-                    ],
-                    'orders' => collect($this->orders)
-                ]
-            ];
+                'orders' => collect($this->orders)
+            ],
+        ];
     }
 }

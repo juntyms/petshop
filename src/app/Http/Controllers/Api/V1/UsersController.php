@@ -76,7 +76,6 @@ class UsersController extends Controller
         $this->userRepository->deleteUser($userId);
 
         return $this->success('', 'User Deleted', 200);
-
     }
 
     /**
@@ -121,7 +120,6 @@ class UsersController extends Controller
         $orders = $this->userRepository->getAllUserOrders($userId, $request->all());
 
         return OrderResource::collection($orders);
-
     }
     /**
      * @OA\Post(
@@ -256,7 +254,6 @@ class UsersController extends Controller
         $userId = Auth::user()->id;
 
         return new UserResource($this->userRepository->updateUserDetails($userId, $request->all()));
-
     }
 
     /**
@@ -295,17 +292,14 @@ class UsersController extends Controller
         $request->validated($request->all());
 
         if (Auth::attempt($request->only(['email','password']))) {
-
             $this->createToken(Auth::user()->uuid);
 
             $user = User::where('id', Auth::user()->id)->get();
 
             return UserResource::collection($user);
-
         }
 
         return $this->error('', 'Credentials do not match', 401);
-
     }
 
     /**
@@ -434,7 +428,6 @@ class UsersController extends Controller
             ->first();
 
         if ($resetToken) {
-
             $user = User::where('email', $request->email)->first();
 
             $user->update(['password' => \Hash::make($request->password)]);

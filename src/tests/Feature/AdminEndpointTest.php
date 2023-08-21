@@ -35,7 +35,7 @@ class AdminEndpointTest extends TestCase
                             'phone_number' => fake()->phoneNumber()
                         ]);
 
-        $response->assertStatus(200);
+        $response->assertStatus(201);
 
 
     }
@@ -153,6 +153,6 @@ class AdminEndpointTest extends TestCase
         $response = $this->withHeaders(['Authorization' => 'Bearer '.$token->token])
                             ->json('delete', 'api/v1/admin/user-delete/'.$user->uuid);
 
-        $response->assertStatus(403);
+        $response->assertStatus(404);
     }
 }
