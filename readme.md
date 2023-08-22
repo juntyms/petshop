@@ -1,9 +1,11 @@
 ## How to install
 
+---
+
 ### Petshop e-commerce
 #### clone repository
 
-```
+```BASH
 git@github.com:juntyms/petshop.git
 cd petshop
 composer install
@@ -11,32 +13,32 @@ composer install
 
 #### Running Docker
 
-```
+```BASH
 cd petshop
 ./local.sh rebuild
 ```
 ##### Other docker option
 Starting Docker Server
-```
+```BASH
 ./docker.sh start
 ```
 Shutting Down Docker Server
-```
+```BASH
 ./docker.sh down
 ```
 Rubuilding Docker Server
-```
+```BASH
 ./docker.sh rebuild
 ```
 SSH to docker Server
-```
+```BASH
 ./docker.sh ssh
 ```
 
 
 #### configure .env 
 Open .env file
-```
+```BASH
 DB_CONNECTION=mysql
 DB_HOST=db
 DB_PORT=3306
@@ -56,7 +58,7 @@ DB_PASSWORD=petshop_pass
 
 #### Running migration
 _access the shell and run the migration and seeder_
-```
+```BASH
 ./docker.sh ssh
 php artisan migrate:fresh --seed
 ```
@@ -66,7 +68,7 @@ http://127.0.0.1/api/documentation
 
 ### PHP Insights
 Check code quality using php [insights](https://phpinsights.com/)
-```
+```BASH
 php artisan insight
 ```
 
@@ -76,3 +78,8 @@ php artisan insight
 
 ### Normal User
 > password : userpassword 
+
+---
+
+### Readme
+#### [Currency conversion package](src\packages\juntyms\currencyexchange\readme.md) 

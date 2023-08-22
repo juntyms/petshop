@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api\v1;
+namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\V1\ForgotPasswordRequest;
@@ -19,9 +19,6 @@ use Auth;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
-/**
- * @OA\Tag(name="User", description="User API Endpoint")
- */
 class UsersController extends Controller
 {
     use HttpResponses;

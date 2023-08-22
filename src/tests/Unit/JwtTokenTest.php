@@ -7,7 +7,7 @@ use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-class EJwtTokenTest extends TestCase
+class JwtTokenTest extends TestCase
 {
     use RefreshDatabase;
 

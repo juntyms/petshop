@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "508eb8a5799ae03d5e1364d45a83e893",
+    "content-hash": "30fe6863afd84a745f98c0d0e764023e",
     "packages": [
         {
             "name": "brick/math",
@@ -1191,6 +1191,45 @@
                 }
             ],
             "time": "2021-10-07T12:57:01+00:00"
+        },
+        {
+            "name": "juntyms/currencyexchange",
+            "version": "dev-main",
+            "dist": {
+                "type": "path",
+                "url": "packages/juntyms/currencyexchange",
+                "reference": "59c9425d935f9e95208e094c20f3efb525a5c95f"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Juntyms\\CurrencyExchange\\CurrencyExchangeServiceProvider"
+                    ],
+                    "aliases": {
+                        "CurrencyExchange": "Juntyms\\CurrencyExchange\\Facades\\CurrencyExchange"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Juntyms\\CurrencyExchange\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Junn Eric Timoteo",
+                    "email": "juntyms@gmail.com"
+                }
+            ],
+            "description": "A currency converter package api",
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
         },
         {
             "name": "laravel/framework",
@@ -10228,16 +10267,16 @@
         },
         {
             "name": "spatie/ignition",
-            "version": "1.9.0",
+            "version": "1.10.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/ignition.git",
-                "reference": "de24ff1e01814d5043bd6eb4ab36a5a852a04973"
+                "reference": "d92b9a081e99261179b63a858c7a4b01541e7dd1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/ignition/zipball/de24ff1e01814d5043bd6eb4ab36a5a852a04973",
-                "reference": "de24ff1e01814d5043bd6eb4ab36a5a852a04973",
+                "url": "https://api.github.com/repos/spatie/ignition/zipball/d92b9a081e99261179b63a858c7a4b01541e7dd1",
+                "reference": "d92b9a081e99261179b63a858c7a4b01541e7dd1",
                 "shasum": ""
             },
             "require": {
@@ -10307,7 +10346,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-06-28T13:24:59+00:00"
+            "time": "2023-08-21T15:06:37+00:00"
         },
         {
             "name": "spatie/laravel-ignition",
@@ -11198,7 +11237,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "juntyms/currencyexchange": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
