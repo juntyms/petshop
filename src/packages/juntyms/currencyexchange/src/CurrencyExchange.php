@@ -22,7 +22,6 @@ class CurrencyExchange
 
     public function currency(string $currency)
     {
-
         $client = new Client();
 
         try {
@@ -55,7 +54,6 @@ class CurrencyExchange
         }
 
         return $this;
-
     }
 
     public function amount(float $value)
@@ -67,10 +65,8 @@ class CurrencyExchange
 
     public function getConversion()
     {
-
         $this->rate = $this->amount * $this->currency;
 
         return $this->rate;
-
     }
 }

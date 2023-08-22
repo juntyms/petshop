@@ -13,6 +13,8 @@ class CurrencyExchangeServiceProvider extends ServiceProvider
 
     public function register()
     {
-
+        $this->app->bind('CurrencyExchange', function ($app) {
+            return new CurrencyExchange();
+        });
     }
 }
