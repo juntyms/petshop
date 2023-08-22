@@ -4,7 +4,7 @@
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "Juntyms\\Currencyexchange\\": "src/"
+            "Juntyms\\CurrencyExchange\\": "src/"
         }
     },
     "authors": [
