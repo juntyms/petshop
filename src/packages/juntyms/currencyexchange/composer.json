@@ -2,11 +2,6 @@
     "name": "juntyms/currencyexchange",
     "description": "A currency converter package api",
     "license": "MIT",
-    "autoload": {
-        "psr-4": {
-            "Juntyms\\CurrencyExchange\\": "src/"
-        }
-    },
     "authors": [
         {
             "name": "Junn Eric Timoteo",
@@ -23,5 +18,20 @@
             }
         }
     },
-    "require": {}
+    "require-dev": {
+        "orchestra/testbench": "*"
+    },
+    "require": {
+        "guzzlehttp/guzzle": "^7.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Juntyms\\CurrencyExchange\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Juntyms\\CurrencyExchange\\Tests\\": "tests/"
+        }
+    }
 }

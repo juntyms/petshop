@@ -410,6 +410,80 @@
                 ]
             }
         },
+        "/api/v1/currency/{currency}/{amount}": {
+            "get": {
+                "tags": [
+                    "Currency Exchange Rate"
+                ],
+                "operationId": "f6436ce2a8a76b08f0c19094829db9aa",
+                "parameters": [
+                    {
+                        "name": "currency",
+                        "in": "path",
+                        "description": "Currency to convert",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "USD",
+                                "JPY",
+                                "BGN",
+                                "CZK",
+                                "DKK",
+                                "GBP",
+                                "HUF",
+                                "PLN",
+                                "RON",
+                                "SEK",
+                                "CHF",
+                                "ISK",
+                                "NOK",
+                                "TRY",
+                                "AUD",
+                                "BRL",
+                                "CAD",
+                                "CNY",
+                                "HKD",
+                                "IDR",
+                                "ILS",
+                                "INR",
+                                "KRW",
+                                "MXN",
+                                "MYR",
+                                "NZD",
+                                "PHP",
+                                "SGD",
+                                "THB",
+                                "ZAR"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "amount",
+                        "in": "path",
+                        "description": "Amount to convert",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        },
         "/api/v1/user": {
             "get": {
                 "tags": [
@@ -530,7 +604,7 @@
                     "User"
                 ],
                 "summary": "Create new user",
-                "operationId": "be9d68ef05d06d75e4adb3562220a4b6",
+                "operationId": "391f1ab92603879c393b8cbf8764507b",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -608,7 +682,7 @@
                     "User"
                 ],
                 "summary": "Update User record.",
-                "operationId": "c5e51b497f269625a832ec82311e8e69",
+                "operationId": "42c3e2aaa04f735667bae493c2871e7b",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -732,7 +806,7 @@
                     "User"
                 ],
                 "summary": "Logs out current logged in user session",
-                "operationId": "fc388b2f89bb2251f99dbccb510a2764",
+                "operationId": "9a4f3eb625c3b26a73128d72539e3339",
                 "responses": {
                     "200": {
                         "description": "OK"
@@ -758,7 +832,7 @@
                     "User"
                 ],
                 "summary": "Create a token to reset a user password",
-                "operationId": "3aa43144ee40fb905644f9b78a0afe99",
+                "operationId": "a3434b71a63070856c8b898faa3f0a68",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -803,7 +877,7 @@
                     "User"
                 ],
                 "summary": "Rest a user password with a token",
-                "operationId": "b0298a94657c6e654092944978b96c81",
+                "operationId": "51175bcb9c42a956c3645af6401e07d6",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -878,6 +952,10 @@
         {
             "name": "User",
             "description": "User API Endpoint"
+        },
+        {
+            "name": "Currency Exchange Rate",
+            "description": "Level 3 - Challenge"
         }
     ]
 }
