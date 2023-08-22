@@ -81,5 +81,5 @@ php artisan insight
 
 ---
 
-### Readme
-#### [Currency conversion package](src\packages\juntyms\currencyexchange\readme.md) 
+### Readme - Currency Conversion Package ( L3 Challege
+#### [Currency conversion package](/src/packages/juntyms/currencyexchange/readme.md) 
