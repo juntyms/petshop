@@ -17,7 +17,10 @@
         "laravel": {
             "providers": [
                 "Juntyms\\CurrencyExchange\\CurrencyExchangeServiceProvider"
-            ]
+            ],
+            "aliases": {
+                "CurrencyExchange": "Juntyms\\CurrencyExchange\\Facades\\CurrencyExchange"
+            }
         }
     },
     "require": {}
