@@ -8,7 +8,9 @@ class CurrencyExchangeServiceProvider extends ServiceProvider
 {
     public function boot()
     {
-
+        $this->publishes([
+            __DIR__ . '/../config/exchange.php' => config_path('exchange.php')
+        ]);
     }
 
     public function register()
@@ -16,5 +18,6 @@ class CurrencyExchangeServiceProvider extends ServiceProvider
         $this->app->bind('CurrencyExchange', function ($app) {
             return new CurrencyExchange();
         });
+
     }
 }
