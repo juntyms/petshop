@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use CurrencyExchange;
 use Illuminate\Http\Request;
 
-class CurrencyExchangeController extends Controller
+class CurrenciesExchangeController extends Controller
 {
     public function convertCurrency($currency, $amount)
     {
