@@ -1,0 +1,22 @@
+{
+    "name": "juntyms/currencyexchange",
+    "description": "A currency converter package api",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Juntyms\\Currencyexchange\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Junn Eric Timoteo",
+            "email": "juntyms@gmail.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+        }
+    }
+    "require": {}
+}
