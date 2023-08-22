@@ -15,9 +15,6 @@ use App\Models\User;
 use Auth;
 use Illuminate\Http\Request;
 
-/**
- * @OA\Tag(name="Admin", description="Admin Endpoint")
- */
 class AdminsController extends Controller
 {
     use HttpResponses;

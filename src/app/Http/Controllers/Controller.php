@@ -29,7 +29,11 @@ use OpenApi\Annotations as OA;
  *       scheme="bearer",
  *       bearerFormat="JWT",
  *       securityScheme="bearerToken"
- *  )
+ *  ),
+ *
+ *  @OA\Tag(name="Admin", description="Admin Endpoint"),
+ *  @OA\Tag(name="User", description="User API Endpoint"),
+ *  @OA\Tag(name="Currency Exchange Rate", description="Level 3 - Challenge")
  */
 
 class Controller extends BaseController

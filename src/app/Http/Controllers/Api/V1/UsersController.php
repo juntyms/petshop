@@ -19,9 +19,6 @@ use Auth;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
-/**
- * @OA\Tag(name="User", description="User API Endpoint")
- */
 class UsersController extends Controller
 {
     use HttpResponses;
