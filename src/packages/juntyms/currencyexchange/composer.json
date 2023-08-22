@@ -15,7 +15,9 @@
     ],
     "extra": {
         "laravel": {
-            "providers": []
+            "providers": [
+                "Juntyms\\CurrencyExchange\\CurrencyExchangeServiceProvider"
+            ]
         }
     },
     "require": {}
