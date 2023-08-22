@@ -15,8 +15,8 @@
     ],
     "extra": {
         "laravel": {
-            "providers": [],
+            "providers": []
         }
-    }
+    },
     "require": {}
 }
