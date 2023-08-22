@@ -4,6 +4,7 @@ namespace Juntyms\CurrencyExchange;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
+use Juntyms\CurrencyExchange\CurrencyParser;
 
 class CurrencyExchange
 {
@@ -22,35 +23,19 @@ class CurrencyExchange
 
     public function currency(string $currency)
     {
-        $client = new Client();
+        $decoded = CurrencyParser::getXML();
 
-        try {
+        $collection = collect($decoded)
+            ->flatten(4)
+            ->where('currency', $currency);
 
-            $res = $client->request('GET', 'https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml');
+        $key = $collection->search(function ($item, $key) use ($currency) {
+            return $item['currency'] == $currency;
+        });
 
-            $res = $res->getBody()->getContents();
+        if ($key) {
 
-            $encoded = json_encode(simplexml_load_string($res));
-
-            $decoded = json_decode($encoded, true);
-
-            $collection = collect($decoded)
-                ->flatten(4)
-                ->where('currency', $currency);
-
-            $key = $collection->search(function ($item, $key) use ($currency) {
-                return $item['currency'] == $currency;
-            });
-
-            if ($key) {
-
-                $this->currency = $collection[$key]["rate"];
-            }
-
-        } catch (GuzzleException $e) {
-            return response()->json([
-                        'error' => $e->getMessage()
-                    ], 500);
+            $this->currency = $collection[$key]["rate"];
         }
 
         return $this;
