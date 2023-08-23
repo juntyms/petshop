@@ -13,7 +13,13 @@ class CurrencyParser
 
         try {
 
-            $res = $client->request('GET', 'https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml');
+            if (Currency::configNotPublished()) {
+                $uri = 'https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml';
+            } else {
+                $uri = config('exchange.uri');
+            }
+
+            $res = $client->request('GET', $uri);
 
             $res = $res->getBody()->getContents();
 

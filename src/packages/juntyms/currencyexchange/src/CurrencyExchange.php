@@ -2,8 +2,6 @@
 
 namespace Juntyms\CurrencyExchange;
 
-use GuzzleHttp\Client;
-use GuzzleHttp\Exception\GuzzleException;
 use Juntyms\CurrencyExchange\CurrencyParser;
 
 class CurrencyExchange
@@ -15,9 +13,7 @@ class CurrencyExchange
     public function __construct()
     {
         $this->rate = 0;
-
         $this->amount = 0;
-
         $this->currency = 0;
     }
 
