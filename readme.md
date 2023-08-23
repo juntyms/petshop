@@ -3,7 +3,7 @@
 ---
 
 ### Petshop e-commerce
-#### clone repository
+#### cloning the repository
 
 ```BASH
 git@github.com:juntyms/petshop.git
@@ -69,7 +69,14 @@ http://127.0.0.1/api/documentation
 ### PHP Insights
 Check code quality using php [insights](https://phpinsights.com/)
 ```BASH
+./docker.sh ssh
 php artisan insight
+```
+
+### Testing
+```BASH
+./docker.sh ssh
+php artisan test
 ```
 
 ### Admin User
