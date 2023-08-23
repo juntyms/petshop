@@ -318,7 +318,7 @@ class UsersController extends Controller
         JwtToken::where('user_id', Auth::user()->id)->delete();
 
         return $this->success([
-            'message' => 'You have been logout'
+            'message' => 'You have been logout',
         ]);
     }
 
@@ -363,11 +363,11 @@ class UsersController extends Controller
                 ->insert([
                     'email' => $user->email,
                     'token' => $new_token,
-                    'created_at' => Carbon::now()
+                    'created_at' => Carbon::now(),
                 ]);
 
             return $this->success([
-                'token' => $new_token
+                'token' => $new_token,
             ], 'Token Generated', 200);
         }
 

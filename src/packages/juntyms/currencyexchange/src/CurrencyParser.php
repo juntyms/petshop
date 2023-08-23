@@ -12,7 +12,6 @@ class CurrencyParser
         $client = new Client();
 
         try {
-
             if (Currency::configNotPublished()) {
                 $uri = 'https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml';
             } else {
@@ -29,11 +28,10 @@ class CurrencyParser
 
         } catch (GuzzleException $e) {
             return response()->json([
-                        'error' => $e->getMessage()
-                    ], 500);
+                'error' => $e->getMessage(),
+            ], 500);
         }
 
         return $decoded;
-
     }
 }

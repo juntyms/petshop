@@ -2,8 +2,6 @@
 
 namespace Juntyms\CurrencyExchange;
 
-use Juntyms\CurrencyExchange\CurrencyParser;
-
 class CurrencyExchange
 {
     private $rate;
@@ -25,13 +23,12 @@ class CurrencyExchange
             ->flatten(4)
             ->where('currency', $currency);
 
-        $key = $collection->search(function ($item, $key) use ($currency) {
-            return $item['currency'] == $currency;
+        $key = $collection->search(function ($item) use ($currency) {
+            return $item['currency'] === $currency;
         });
 
         if ($key) {
-
-            $this->currency = $collection[$key]["rate"];
+            $this->currency = $collection[$key]['rate'];
         }
 
         return $this;

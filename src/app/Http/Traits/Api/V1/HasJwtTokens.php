@@ -36,7 +36,10 @@ trait HasJwtTokens
             ->expiresAt($dateNow->modify('+10 minute'))
             ->withClaim('uuid', $uuid)
             ->withHeader('petshop', uniqid())
-            ->getToken($this->configuration()->signer(), $this->configuration()->signingKey());
+            ->getToken(
+                $this->configuration()->signer(),
+                $this->configuration()->signingKey()
+            );
 
         $user = User::where('uuid', $uuid)->first();
 
@@ -57,7 +60,13 @@ trait HasJwtTokens
 
         $validator = $this->configuration()->validator();
 
-        if ($validator->validate($token, new SignedWith($this->configuration()->signer(), $this->configuration()->verificationKey()))) {
+        if ($validator->validate(
+            $token,
+            new SignedWith(
+                $this->configuration()->signer(),
+                $this->configuration()->verificationKey()
+            )
+        )) {
             return User::where('uuid', $token->claims()->get('uuid'))->first();
         }
 

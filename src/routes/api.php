@@ -19,7 +19,9 @@ Route::prefix('v1')->group(function () {
             Route::post('/reset-password-token', 'resetPasswordToken');
         });
     });
-    Route::get('/currency/{currency}/{amount}', [CurrenciesExchangeController::class,'convertCurrency']);
+    Route::controller(CurrenciesExchangeController::class)->group(function () {
+        Route::get('/currency/{currency}/{amount}', 'convertCurrency');
+    });
     Route::middleware('auth:api')->group(function () {
         Route::middleware('adminOnly')->group(function () {
             Route::prefix('admin')->group(function () {

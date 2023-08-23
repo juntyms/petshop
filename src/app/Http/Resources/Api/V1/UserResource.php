@@ -33,7 +33,7 @@ class UserResource extends JsonResource
                     'id' => $this->jwttoken->id ?? null,
                     'token' => $this->jwttoken->token_title ?? null,
                 ],
-                'orders' => collect($this->orders)
+                'orders' => collect($this->orders),
             ],
         ];
     }

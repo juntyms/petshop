@@ -25,7 +25,7 @@ class OrderResource extends JsonResource
             ],
             'user' => collect($this->user),
             'payment' => [
-            ]
+            ],
         ];
     }
 }

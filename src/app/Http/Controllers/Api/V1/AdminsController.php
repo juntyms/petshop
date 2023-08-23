@@ -206,13 +206,11 @@ class AdminsController extends Controller
         $request->validated($request->all());
 
         if (Auth::attempt($request->only(['email','password']))) {
-
             $this->createToken(Auth::user()->uuid);
 
             $user = User::where('id', Auth::user()->id)->get();
 
             return AdminResource::collection($user);
-
         }
 
         return $this->error('', 'Credentials do not match', 401);
