@@ -9,7 +9,7 @@
     "repositories": {
         "currencyexchange": {
             "type": "path",
-            "url": "../packages/juntyms/currencyexchange",
+            "url": "packages/juntyms/currencyexchange",
             "options": {
                 "symlink": true
             }
