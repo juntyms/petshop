@@ -6,7 +6,7 @@
 #### cloning the repository
 
 ```BASH
-git@github.com:juntyms/petshop.git
+git clone git@github.com:juntyms/petshop.git
 cd petshop
 composer install
 ```
