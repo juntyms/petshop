@@ -13,6 +13,13 @@
             "options": {
                 "symlink": true
             }
+        },
+        "stripe": {
+            "type": "path",
+            "url": "packages/juntyms/stripe",
+            "options": {
+                "symlink": true
+            }
         }
     },
     "license": "MIT",
@@ -26,7 +33,8 @@
         "laravel/tinker": "^2.8",
         "lcobucci/clock": "^3.1",
         "lcobucci/jwt": "^5.0",
-        "juntyms/currencyexchange": "@dev"
+        "juntyms/currencyexchange": "@dev",
+        "juntyms/stripe": "@dev"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.13",

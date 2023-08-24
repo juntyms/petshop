@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "30fe6863afd84a745f98c0d0e764023e",
+    "content-hash": "bc2a6b9fa7ef83b0e0edc47286f88e36",
     "packages": [
         {
             "name": "brick/math",
@@ -1237,6 +1237,57 @@
                 }
             ],
             "description": "A currency converter package api",
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "juntyms/stripe",
+            "version": "dev-main",
+            "dist": {
+                "type": "path",
+                "url": "packages/juntyms/stripe",
+                "reference": "efb866d6b526664a88f04faabb8fc0cc99f7a2e8"
+            },
+            "require": {
+                "stripe/stripe-php": "^12.0"
+            },
+            "require-dev": {
+                "orchestra/testbench": "*",
+                "phpunit/phpunit": "^10.3"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Juntyms\\Stripe\\StripeServiceProvider"
+                    ],
+                    "aliases": {
+                        "Stripe": "Juntyms\\Stripe\\Facades\\Stripe"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Juntyms\\Stripe\\": "src/",
+                    "Juntyms\\Stripe\\Database\\Factories\\": "databsae/factories"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "Juntyms\\Stripe\\Tests\\": "tests/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Junn Eric Timoteo",
+                    "email": "juntyms@yahoo.com"
+                }
+            ],
             "transport-options": {
                 "symlink": true,
                 "relative": true
@@ -3549,6 +3600,67 @@
                 }
             ],
             "time": "2023-04-15T23:01:58+00:00"
+        },
+        {
+            "name": "stripe/stripe-php",
+            "version": "v12.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/stripe/stripe-php.git",
+                "reference": "732996be0714154716f19f73f956d77bafc99334"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/732996be0714154716f19f73f956d77bafc99334",
+                "reference": "732996be0714154716f19f73f956d77bafc99334",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "ext-json": "*",
+                "ext-mbstring": "*",
+                "php": ">=5.6.0"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "3.5.0",
+                "php-coveralls/php-coveralls": "^2.5",
+                "phpstan/phpstan": "^1.2",
+                "phpunit/phpunit": "^5.7 || ^9.0",
+                "squizlabs/php_codesniffer": "^3.3"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Stripe\\": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Stripe and contributors",
+                    "homepage": "https://github.com/stripe/stripe-php/contributors"
+                }
+            ],
+            "description": "Stripe PHP Library",
+            "homepage": "https://stripe.com/",
+            "keywords": [
+                "api",
+                "payment processing",
+                "stripe"
+            ],
+            "support": {
+                "issues": "https://github.com/stripe/stripe-php/issues",
+                "source": "https://github.com/stripe/stripe-php/tree/v12.0.0"
+            },
+            "time": "2023-08-18T18:55:28+00:00"
         },
         {
             "name": "swagger-api/swagger-ui",
@@ -8686,16 +8798,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "1.10.30",
+            "version": "1.10.31",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "2910afdd3fe33e5afd71c09f3fb0d0845b48c410"
+                "reference": "c0eb159b598e2b637cbd52840e3d08f28d25dd47"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/2910afdd3fe33e5afd71c09f3fb0d0845b48c410",
-                "reference": "2910afdd3fe33e5afd71c09f3fb0d0845b48c410",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/c0eb159b598e2b637cbd52840e3d08f28d25dd47",
+                "reference": "c0eb159b598e2b637cbd52840e3d08f28d25dd47",
                 "shasum": ""
             },
             "require": {
@@ -8744,7 +8856,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-08-22T13:48:25+00:00"
+            "time": "2023-08-24T14:26:09+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
@@ -11249,7 +11361,8 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "juntyms/currencyexchange": 20
+        "juntyms/currencyexchange": 20,
+        "juntyms/stripe": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,

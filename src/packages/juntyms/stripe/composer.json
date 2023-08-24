@@ -1,0 +1,38 @@
+{
+    "name": "juntyms/stripe",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Juntyms\\Stripe\\": "src/",
+            "Juntyms\\Stripe\\Database\\Factories\\": "databsae/factories"
+        }
+    },
+    "authors": [
+        {
+            "name": "Junn Eric Timoteo",
+            "email": "juntyms@yahoo.com"
+        }
+    ],
+    "require": {
+        "stripe/stripe-php": "^12.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "*",
+        "phpunit/phpunit": "^10.3"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Juntyms\\Stripe\\StripeServiceProvider"
+            ],
+            "aliases": {
+                "Stripe": "Juntyms\\Stripe\\Facades\\Stripe"
+            }
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Juntyms\\Stripe\\Tests\\": "tests/"
+        }
+    }
+}
