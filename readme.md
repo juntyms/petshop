@@ -24,7 +24,7 @@ Starting Docker Server
 ```
 Shutting Down Docker Server
 ```BASH
-./docker.sh down
+./docker.sh stop
 ```
 Rubuilding Docker Server
 ```BASH
@@ -88,5 +88,5 @@ php artisan test
 
 ---
 
-### Readme - Currency Conversion Package ( L3 Challege
+### Readme - Currency Conversion Package ( L3 Challege )
 #### [Currency conversion package](/src/packages/juntyms/currencyexchange/readme.md) 
