@@ -60,23 +60,98 @@ class Stripe
 
         try {
             $this->paymentMethod = $this->stripeClient->paymentMethods->create($this->card);
+
+            return $this;
+
+        } catch (\Stripe\Exception\CardException $e) {
+            // Return https://{base_url}/payment/{order_uuid}/?status=success|failure&gtw=stripe
+
+            //return $e->getMessage();
+            $error['status'] = $e->getHttpStatus();
+            $error['type'] = $e->getError()->type;
+            $error['code'] = $e->getError()->code;
+            $error['param'] = $e->getError()->param;
+            $error['message'] = $e->getError()->message;
+
+        } catch (\Stripe\Exception\RateLimitException $e) {
+            // Too many requests made to the API too quickly
+            $error['message'] = $e->getError()->message;
+
+        } catch (\Stripe\Exception\InvalidRequestException $e) {
+            // Invalid parameters were supplied to Stripe's API
+            $error['message'] = $e->getError()->message;
+
+        } catch (\Stripe\Exception\AuthenticationException $e) {
+            // Authentication with Stripe's API failed
+            // (maybe you changed API keys recently)
+            $error['message'] = $e->getError()->message;
+
+        } catch (\Stripe\Exception\ApiConnectionException $e) {
+            // Network communication with Stripe failed
+            $error['message'] = $e->getError()->message;
+
+        } catch (\Stripe\Exception\ApiErrorException $e) {
+            // Display a very generic error to the user, and maybe send
+            // yourself an email
+            $error['message'] = $e->getError()->message;
         } catch (\Exception $e) {
-            return $e->getMessage();
+            // Something else happened, completely unrelated to Stripe
+            $error['message'] = $e->getMessage();
         }
 
-        return $this;
+        return response()->json($error);
+
     }
 
     public function paymentIntent()
     {
 
-        $this->paymentIntent = $this->stripeClient->paymentIntents->create([
-                    'amount' => $this->amount,
-                    'currency' => $this->currency,
-                    'payment_method' => $this->paymentMethod->id,
-                ]);
+        try {
+            $this->paymentIntent = $this->stripeClient->paymentIntents->create([
+                        'amount' => $this->amount,
+                        'currency' => $this->currency,
+                        'payment_method' => $this->paymentMethod->id,
+                    ]);
 
-        return $this;
+            return $this;
+
+        } catch (\Stripe\Exception\CardException $e) {
+            // Return https://{base_url}/payment/{order_uuid}/?status=success|failure&gtw=stripe
+
+            //return $e->getMessage();
+            $error['status'] = $e->getHttpStatus();
+            $error['type'] = $e->getError()->type;
+            $error['code'] = $e->getError()->code;
+            $error['param'] = $e->getError()->param;
+            $error['message'] = $e->getError()->message;
+
+        } catch (\Stripe\Exception\RateLimitException $e) {
+            // Too many requests made to the API too quickly
+            $error['message'] = $e->getError()->message;
+
+        } catch (\Stripe\Exception\InvalidRequestException $e) {
+            // Invalid parameters were supplied to Stripe's API
+            $error['message'] = $e->getError()->message;
+
+        } catch (\Stripe\Exception\AuthenticationException $e) {
+            // Authentication with Stripe's API failed
+            // (maybe you changed API keys recently)
+            $error['message'] = $e->getError()->message;
+
+        } catch (\Stripe\Exception\ApiConnectionException $e) {
+            // Network communication with Stripe failed
+            $error['message'] = $e->getError()->message;
+
+        } catch (\Stripe\Exception\ApiErrorException $e) {
+            // Display a very generic error to the user, and maybe send
+            // yourself an email
+            $error['message'] = $e->getError()->message;
+        } catch (\Exception $e) {
+            // Something else happened, completely unrelated to Stripe
+            $error['message'] = $e->getMessage();
+        }
+
+        return response()->json($error);
     }
 
     public function successUrl(string $url)
@@ -109,6 +184,9 @@ class Stripe
                     'return_url' => $this->url,
                 ]
             );
+
+            return $confirm;
+
         } catch (\Stripe\Exception\CardException $e) {
             // Return https://{base_url}/payment/{order_uuid}/?status=success|failure&gtw=stripe
 
@@ -119,36 +197,37 @@ class Stripe
             $error['param'] = $e->getError()->param;
             $error['message'] = $e->getError()->message;
 
-            return $error;
+
+
         } catch (\Stripe\Exception\RateLimitException $e) {
             // Too many requests made to the API too quickly
-            return $error['message'] = $e->getError()->message;
+            $error['message'] = $e->getError()->message;
 
         } catch (\Stripe\Exception\InvalidRequestException $e) {
             // Invalid parameters were supplied to Stripe's API
-            return $error['message'] = $e->getError()->message;
+            $error['message'] = $e->getError()->message;
 
         } catch (\Stripe\Exception\AuthenticationException $e) {
             // Authentication with Stripe's API failed
             // (maybe you changed API keys recently)
-            return $error['message'] = $e->getError()->message;
+            $error['message'] = $e->getError()->message;
 
         } catch (\Stripe\Exception\ApiConnectionException $e) {
             // Network communication with Stripe failed
-            return $error['message'] = $e->getError()->message;
+            $error['message'] = $e->getError()->message;
 
         } catch (\Stripe\Exception\ApiErrorException $e) {
             // Display a very generic error to the user, and maybe send
             // yourself an email
-            return $error['message'] = $e->getError()->message;
+            $error['message'] = $e->getError()->message;
         } catch (\Exception $e) {
             // Something else happened, completely unrelated to Stripe
-            return $error['message'] = $e->getMessage();
-
-
+            $error['message'] = $e->getMessage();
         }
 
-        return $confirm;
+        return response()->json($error);
+
+
 
     }
 }

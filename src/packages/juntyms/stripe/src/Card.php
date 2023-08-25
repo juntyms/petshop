@@ -2,6 +2,8 @@
 
 namespace Juntyms\Stripe;
 
+use Carbon\Carbon;
+
 class Card
 {
     private $cardnumber;
@@ -46,6 +48,15 @@ class Card
     public function cvc(int $cvc)
     {
         $this->cvc = $cvc;
+
+        return $this;
+    }
+
+    public function expiry(string $expiry)
+    {
+        $this->month = Carbon::parse($expiry)->format('m');
+
+        $this->year = Carbon::parse($expiry)->format('y');
 
         return $this;
     }

@@ -29,7 +29,7 @@ class StripeServiceProvider extends ServiceProvider
 
     public function register()
     {
-        $this->app->bind('stripe', function ($app) {
+        $this->app->singleton('stripe', function ($app) {
             return new Stripe();
         });
     }

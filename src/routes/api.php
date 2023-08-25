@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\V1\AdminsController;
 use App\Http\Controllers\Api\V1\CurrenciesExchangeController;
+use App\Http\Controllers\Api\V1\PaymentsController;
 use App\Http\Controllers\Api\v1\UsersController;
 use Illuminate\Support\Facades\Route;
 
@@ -21,6 +22,9 @@ Route::prefix('v1')->group(function () {
     });
     Route::controller(CurrenciesExchangeController::class)->group(function () {
         Route::get('/currency/{currency}/{amount}', 'convertCurrency');
+    });
+    Route::controller(PaymentsController::class)->group(function () {
+        Route::post('/payments/create', 'store');
     });
     Route::middleware('auth:api')->group(function () {
         Route::middleware('adminOnly')->group(function () {
