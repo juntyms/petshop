@@ -20,7 +20,7 @@ class AdminUserTableSeeder extends Seeder
             'first_name' => 'Admin',
             'last_name' => 'Admin',
             'is_admin' => 1,
-            'email' => 'admin@buckhill.co.uk',
+            'email' => 'admin@demo.com',
             'password' => \Hash::make('admin')
         ])->create();
     }
