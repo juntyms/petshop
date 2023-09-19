@@ -80,7 +80,7 @@ php artisan test
 ```
 
 ### Admin User
->username : **admin@buckhill.co.uk**
+>username : **admin@demo.com**
 >password: **admin**
 
 ### Normal User
